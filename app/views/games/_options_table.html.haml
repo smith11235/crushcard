@@ -17,7 +17,7 @@
             - if opts.present?
               = select_tag k, options_for_select(opts, selected: v)
             - else # just total_rounds
-              = number_field_tag k, v, style: "width: 50px;" 
+              = number_field_tag k, v, style: "width: 50px;", max: 10, min: 2
           - else
             %h5{style: "margin-bottom: 15px;"}
               %i

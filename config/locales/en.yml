@@ -33,6 +33,9 @@ en:
   name: "Crush"
 
   options:
+    max_players:
+      label: "Max Players"
+      default: 5
     total_rounds:
       label: "Total Rounds"
       default: 10

@@ -73,7 +73,7 @@ class GamesController < ApplicationController
   end
 
   def too_many_players?
-    if @game.config[:players].size >= Game::MAX_PLAYERS
+    if @game.config[:players].size >= @game.max_players
       game_redirect 'There are too many players in the game already'
       true
     else
@@ -136,7 +136,7 @@ class GamesController < ApplicationController
   def start
     error = nil
     if !@game.enough_players?
-      error = "Must have between #{Game::MIN_PLAYERS} and #{Game::MAX_PLAYERS} players to start"
+      error = "Must have between #{Game::MIN_PLAYERS} and #{@game.max_players} players to start"
     elsif @game.config[:cards_in_play].nil?
       @game.deal_cards
       @notice = "Game has started!"

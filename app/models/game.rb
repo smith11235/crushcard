@@ -1,15 +1,26 @@
 class Game < ApplicationRecord
 
   MIN_PLAYERS=2 # should be 3
-  MAX_PLAYERS=5 # crank up to 10 with rule tweaks
+
+  def max_players
+    config[:max_players].to_i
+  end
+
+  def total_rounds
+    t = config[:total_rounds] # validated 2-10
+    if config[:players].size > 5
+      (Card::DECK_SIZE / t).floor # 6 => 8, 7 => 7, 8 => 6
+    else
+      t
+    end
+  end
 
   def set_up(options)
-    # TODO: validate options?  ehhh, later
-    total_rounds = options.delete('total_rounds').to_i
-    total_rounds = 10 if total_rounds < 2 || total_rounds > 10
+    tr = options.delete('total_rounds').to_i
+    tr = 10 if tr < 2 || tr > 10
 
     state = {
-      total_rounds: total_rounds,
+      total_rounds: tr,
       rounds_played: 0,
       dealer_index: 0,
       waiting_on: nil, # creator 
@@ -50,7 +61,7 @@ class Game < ApplicationRecord
 
   def enough_players?
     player_count = config[:players].size
-    player_count >= MIN_PLAYERS && player_count <= MAX_PLAYERS
+    player_count >= MIN_PLAYERS && player_count <= max_players
   end
   
   def deal_cards
@@ -108,24 +119,24 @@ class Game < ApplicationRecord
   def num_cards_per_player
     case config[:rounds_direction] 
     when 'down'
-      config[:total_rounds] - config[:rounds_played]
+      total_rounds - config[:rounds_played]
     when 'up'
       1 + config[:rounds_played]
     when 'both'
       # in this scenario - total rounds == max card round
-      if config[:rounds_played] < config[:total_rounds] # on way up
+      if config[:rounds_played] < total_rounds # on way up
         1 + config[:rounds_played] # keep going up
       else # on way down
-        config[:total_rounds] - (config[:rounds_played] % config[:total_rounds]) - 1
+        total_rounds - (config[:rounds_played] % total_rounds) - 1
       end
     end
   end
 
   def game_over?
     if config[:rounds_direction] == 'both'
-      config[:rounds_played] == (config[:total_rounds] * 2) - 1
+      config[:rounds_played] == (total_rounds * 2) - 1
     else
-      config[:rounds_played] == config[:total_rounds]
+      config[:rounds_played] == total_rounds
     end
   end
 
@@ -387,6 +398,8 @@ end
 # TODO: make it all json, stringified
 class Card
   include Comparable
+
+  DECK_SIZE=52
   
   SUITS = %w{Spades Hearts Diamonds Clubs}
   attr_accessor :suit, :value, :playable
