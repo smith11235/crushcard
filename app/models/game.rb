@@ -3,16 +3,6 @@ class Game < ApplicationRecord
   MIN_PLAYERS=2 # should be 3
   MAX_PLAYERS=5 # crank up to 10 with rule tweaks
 
-  # consolidate with en.options
-  OPTIONS = [
-    :total_rounds,
-    :rounds_direction,
-    :bids_total,
-    :underbid,
-    :ace_of_trump,
-    :hints
-  ]
-
   def set_up(options)
     # TODO: validate options?  ehhh, later
     total_rounds = options.delete('total_rounds').to_i

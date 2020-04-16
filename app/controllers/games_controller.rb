@@ -381,6 +381,6 @@ class GamesController < ApplicationController
     end
 
     def game_options
-      params.permit(*Game::OPTIONS).to_h
+      params.permit(*t("options", locale: :en).keys).to_h
     end
 end
