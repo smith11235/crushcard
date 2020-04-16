@@ -16,15 +16,15 @@
       Player not present
   
   - if show 
-    %h4.score{style: "margin-bottom: 10px;"}
+    %h5.score{style: "margin-bottom: 10px;"}
       #{@total_scores[index]} points
       (#{@places[index]}#{ActiveSupport::Inflector.ordinal(@places[index])})
   
     - bid = @round_scores[index]
-    %h4.bid_info{class: :bid_hint, style: "margin-bottom: 5px; color: #{bid.last}"}
+    %h5.bid_info{class: :bid_hint, style: "margin-bottom: 5px; color: #{bid.last}"}
       = bid.first
   
     - if params[:debug]
-      %h4{style: "margin-bottom: 5px;"}
+      %h5{style: "margin-bottom: 5px;"}
         Seat#: #{index}
         Profile#: #{@indexes[index]}
