@@ -63,70 +63,18 @@ class GamesController < ApplicationController
     expected_user
   end
 
-  def already_started?
-    if @game.config[:cards_in_play]
-      game_redirect "Can't join once the game has already started"
-      true
-    else
-      false
-    end
-  end
-
-  def too_many_players?
-    if @game.config[:players].size >= @game.max_players
-      game_redirect 'There are too many players in the game already'
-      true
-    else
-      false
-    end
-  end
-
   def add_cpu_player
-
-    return if already_started?
-    return if too_many_players?
-
-    @game.config[:players].push SecureRandom.uuid()
-
-    name = 'cpu'
-    while @game.config[:names].include? name
-      name += 'u'
-    end
-    @game.config[:names].push name
-
-    if @game.save_state
-      game_redirect 'Joined the game!'
+    user_id = SecureRandom.uuid()
+    user_name = 'cpu'
+    if @game.add_player(user_id, user_name)
+      game_redirect 'CPU Joined the game!'
     else
-      game_redirect 'Failed to join the game'
+      game_redirect 'Failed to add CPU to the game'
     end
   end
 
   def add_player
-
-    if @_current_user.nil?
-      game_redirect 'Unable to determine current user'
-      return
-    end
-
-    return if already_started?
-    return if too_many_players?
-
-    if @game.config[:players].include?(@_current_user)
-      game_redirect "You're already in the game"
-      return
-    end
-
-    @game.config[:players].push @_current_user
-    if @game.config[:players].size == 1 # first to join is first dealer
-      @game.config[:waiting_on] = @_current_user
-    end
-    while @game.config[:names].include? params[:username]
-      # make sure username is unique by appending random numbers
-      params[:username] += rand(10).to_s
-    end
-    @game.config[:names].push params[:username]
-
-    if @game.save_state
+    if @game.add_player(@_current_user, params[:username])
       show
     else
       render json: { message: 'Failed to join the game' }

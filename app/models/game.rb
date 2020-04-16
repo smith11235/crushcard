@@ -9,7 +9,7 @@ class Game < ApplicationRecord
   def total_rounds
     t = config[:total_rounds] # validated 2-10
     if config[:players].size > 5
-      (Card::DECK_SIZE / t).floor # 6 => 8, 7 => 7, 8 => 6
+      (Card::DECK_SIZE / t) # 6 => 8, 7 => 7, 8 => 6
     else
       t
     end
@@ -41,6 +41,37 @@ class Game < ApplicationRecord
 
     # TODO: stringify all keys - json field 
     save_state state
+  end
+
+  def already_started?
+    # TODO: is this correct?
+    config[:cards_in_play].present? 
+  end
+
+  def too_many_players?
+    config[:players].size >= max_players
+  end
+
+  def add_player(user_id, user_name)
+    if user_id.nil?
+      return false
+    elsif already_started?
+      return false
+    elsif too_many_players?
+      return false
+    elsif config[:players].include?(user_id)
+      return false
+    end
+
+    config[:players].push user_id
+    config[:waiting_on] = user_id if config[:players].size == 1 # first to join is first dealer
+
+    while config[:names].include?(user_name)
+      # make sure username is unique by appending random numbers
+      user_name += rand(10).to_s
+    end
+    config[:names].push user_name
+    save_state
   end
 
   def add_waiting_info(index, reason)

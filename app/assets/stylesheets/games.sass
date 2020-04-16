@@ -8,30 +8,6 @@
     margin-right: auto
 
 
-.player_card
-  padding: 10px
-  border-radius: 5px
-  width: 270px
-  max-height: 170px
-  text-align: center
-  &.you
-    //background-color: #6f6f6f
-    //border: 1px dashed white
-  .waiting_notice
-    display: none 
-  &.waiting_for
-    border: 3px solid white 
-    .waiting_notice
-      display: block
-
-  .bid_hint
-    visibility: hidden
-    margin: auto
-    border-radius: 5px
-    background-color: black
-  &:hover .bid_hint
-    visibility: visible
-
 .bid_form .btn
   border-top-left-radius: 0px !important
   border-bottom-left-radius: 0px !important
@@ -75,15 +51,50 @@
       font-size: 24px
       font-style: bold
 
+#board
+  .player_card
+    padding: 10px
+    border-radius: 5px
+    width: 270px
+    max-height: 170px
+    text-align: center
+    //&.you
+    &.waiting_for
+      border: 3px solid white 
+
+#game
+  .player_card .bid_hint
+    display: none
+  &.show_hints .player_card .bid_hint
+    display: block
+  &.small_format
+    // Overrides show hints: hide score + bid hint
+    .player_card
+      .score, .bid_hint
+        display: none
+
+  .player_card:hover
+    .bid_hint, .score
+      display: block
+
 .playing_card
   height: 110px
   width: 70px 
   border: 1px solid #000000
-  background: white
   -moz-border-radius: 7px
   -webkit-border-radius: 7px
   border-radius: 7px
   padding: 5px
+  z-index: 50
+  &.unplayed
+    border: 1px dashed #000000
+    z-index: 1
+    background: green
+  &.played
+    border: 1px solid #000000
+    background: white
+    &:hover
+      z-index: 800
 
 .trump_flag
   .playing_card.trump

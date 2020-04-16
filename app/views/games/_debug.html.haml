@@ -8,7 +8,7 @@
       .morph_form
         - morph = []
         - @game.config[:names].each_with_index {|n, i| morph << [n, i]}
-        = select_tag :index, options_for_select(morph, @waiting_for_index), blank: false, style: "color: black; height: 35px; width: 100px;"
+        = select_tag :index, options_for_select(morph, selected: @waiting_on_index), blank: false, style: "color: black; height: 35px; width: 100px;"
         = link_to "Morph!", "#", class: "morph btn btn-lg btn-success", data: {url: morph_game_path}
   .row{style: "padding-top: 20px;"}
     .col-xs-12

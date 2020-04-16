@@ -21,8 +21,7 @@
       (#{@places[index]}#{ActiveSupport::Inflector.ordinal(@places[index])})
   
     - bid = @round_scores[index]
-    - extra_class = @game.show_hints? ? nil : :bid_hint
-    %h4.bid_info{class: extra_class, style: "margin-bottom: 5px; color: #{bid.last}"}
+    %h4.bid_info{class: :bid_hint, style: "margin-bottom: 5px; color: #{bid.last}"}
       = bid.first
   
     - if params[:debug]
