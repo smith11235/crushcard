@@ -2,7 +2,7 @@
 - extra_class ||= extra_class || ""
 / TODO: can the show_hints check be removed from here - rely on top level css flags instead
 - extra_class << " trump" if card.present? && card.suit == @game.config[:trump_card].try(:suit) && @game.show_hints?
-- extra_class << (card.nil? ? " unplayed" : "played")
+- extra_class << (card.nil? ? " unplayed" : " played")
 - position ||= nil
 - style = position ? "top: #{position['top']}; left: #{position['left']};" : nil
 %canvas.playing_card{id: id, class: extra_class, style: style, data: card_data}
