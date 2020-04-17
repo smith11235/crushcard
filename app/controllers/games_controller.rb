@@ -194,13 +194,13 @@ class GamesController < ApplicationController
       # add in different order so the user is always on the bottom
       @names = []
       @indexes = []
-      @game.iterate_through_list_with_start_index(player_index, @game.config[:players]) do |user_id, i|
-        @indexes.push @game.config[:players].index(user_id)
-      end
-      
       @total_scores = []
       @round_scores = []
-      @game.iterate_through_list_with_start_index(player_index, @game.config[:names]) do |name, i|
+
+      # Convert static profile order to relative current user ordering, current_user=0
+      @game.iterate_through_list_with_start_index(player_index, @game.config[:players]) do |user_id, i|
+        @indexes.push @game.config[:players].index(user_id)
+
         bid_avail = @game.config[:bids] && @game.config[:bids][i]
         tricks_taken = (@game.config[:tricks_taken] && @game.config[:tricks_taken][i]) ? @game.config[:tricks_taken][i].size : 0
         tricks_taken = "??" unless bid_avail
@@ -215,7 +215,8 @@ class GamesController < ApplicationController
                     else
                       bid > tricks_taken ? :red : :yellow
                     end
-        @names.push name
+
+        @names.push @game.config[:names][i] 
         @total_scores.push score
         @round_scores.push [bid_info, bid_color]
       end

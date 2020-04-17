@@ -33,6 +33,14 @@ en:
   name: "Crush"
 
   options:
+    hints:
+      label: "Show Hints"
+      default: 'yes'
+      select:
+        - - "None shown (harder)"
+          - 'no'
+        - - "Shown on board"
+          - 'yes'
     max_players:
       label: "Max Players"
       default: 5
@@ -57,6 +65,14 @@ en:
           - 'lose'
         - - "Everyone can win"
           - 'win'
+    first_to_play:
+      label: "First to play" 
+      default: "highest"
+      select:
+        - - "Highest Bidder First"
+          - "highest"
+        - - "Left of Dealer"
+          - "left"
     underbid:
       label: "Under Bid"
       default: 'lose'
@@ -73,11 +89,3 @@ en:
           - 'no_trump'
         - - "Still Trump"
           - 'trump'
-    hints:
-      label: "Show Hints"
-      default: 'yes'
-      select:
-        - - "None shown"
-          - 'no'
-        - - "Shown on board"
-          - 'yes'

@@ -190,19 +190,22 @@ class Game < ApplicationRecord
   end
 
   def set_first_to_play_hand
-    left_of_dealer = (config[:dealer_index] + 1) % config[:players].size
-    if false # rule toggle: 'first_to_play' #TODO
-      # highest bid (first if tie)
-      max_bid = config[:bids].max
-      iterate_through_list_with_start_index(config[:dealer_index] + 1, config[:bids]) do |bid,i|
-        # i is relative 'seat' index, we're looking for absolute profile index
-        if max_bid == bid
-          left_of_dealer = @player_index # TODO: @player_index is wrong. :-(...
-          break
-        end
-      end
-    end
-    add_waiting_info(left_of_dealer, "Play")
+    left_of_dealer = next_player_index(config[:dealer_index])
+
+    next_up = if config[:first_to_play] == 'highest'
+                max_bid = config[:bids].max
+                bidder = nil
+                iterate_through_list_with_start_index(left_of_dealer, config[:bids]) do |bid,i|
+                  if max_bid == bid
+                    bidder = i
+                    break 
+                  end
+                end
+                bidder
+              else
+                left_of_dealer
+              end
+    add_waiting_info(next_up, "Play")
   end
 
   # player either bids or plays a card if it's their turn
@@ -368,9 +371,6 @@ class Game < ApplicationRecord
     
     # now simply get the highest card left
     return card_set.max
-    #iterate_through_list_with_start_index(start_index, card_set) do |card|
-    #  return card if card.value == highest_value
-    #end
   end
   
   def get_playable_cards cards # for a players hand
@@ -387,10 +387,9 @@ class Game < ApplicationRecord
   end
 
   def iterate_through_list_with_start_index start_index, list
-    # start_index is relative to player seat - different for each user
+    # start_index is profile index of 'first spot checked'
     list.size.times do |offset|
       index = (start_index + offset) % list.size
-      @player_index = offset # TODO: is this correct?
       yield list[index], index
     end
   end
