@@ -1,0 +1,20 @@
+- in_game = @game.present? && @game.persisted?
+%nav.navbar.navbar-custom.navbar-fixed-top{role: :navigation}
+  .container
+    .navbar-header
+      - target = @game.present? ? root_path : "#page-top"
+      %a.navbar-brand.page-scroll{href: target}
+        %i.fa.fa-play-circle
+        #{t('name').upcase}
+        - if in_game 
+          = "- \"#{@game.name}\""
+          = " - Round ##{@game.config[:rounds_played] + 1}"
+
+      - if in_game
+        %ul.nav.navbar-nav.navbar-right
+          %ul.nav.navbar-nav
+            %li
+              = link_to "#", data: { toggle: "modal", target: "#rules-modal" } do
+                %h4{style: "margin: 0;"}
+                  %i.fa.fa-book
+                  Rules
