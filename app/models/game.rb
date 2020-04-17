@@ -1,6 +1,6 @@
 class Game < ApplicationRecord
 
-  MIN_PLAYERS=2 # should be 3
+  MIN_PLAYERS=3
 
   def max_players
     config[:max_players].to_i

@@ -3,6 +3,9 @@
     .col-xs-2
     .col-xs-4.text-right
       = f.text_field :name, class: "input-lg", placeholder: "Game Name", required: true, style: "width: 240px;"
+      %br
+      = text_field_tag :username, nil, class: "input-lg", placeholder: "Player Name", required: true, style: "margin-top: 15px; width: 180px;"
+
     .col-xs-4.text-left
       = f.submit class: "btn btn-lg btn-success", style: "width: 240px;"
   .row

@@ -309,9 +309,8 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     @game.set_up(game_options)
-
-    if @game.save
-      game_redirect 'New game was successfully created. Copy and share this URL with your friends.'
+    if @game.add_player(@_current_user, params[:username])
+      game_redirect 'Game created. Share this URL with your friends.'
     else
       new
     end
