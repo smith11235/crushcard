@@ -66,6 +66,7 @@ class GamesController < ApplicationController
   def add_cpu_player
     user_id = SecureRandom.uuid()
     user_name = 'cpu'
+    # add_player #TODO - call add_player
     if @game.add_player(user_id, user_name)
       game_redirect 'CPU Joined the game!'
     else
@@ -74,6 +75,11 @@ class GamesController < ApplicationController
   end
 
   def add_player
+    if params[:force] == 'true' # debug helper for development
+      session[:id] = SecureRandom.uuid()
+      @_current_user = session[:id]
+    end
+      
     if @game.add_player(@_current_user, params[:username])
       show
     else

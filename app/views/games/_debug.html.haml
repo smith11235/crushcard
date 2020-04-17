@@ -1,8 +1,14 @@
 - if params[:debug]
   %hr
-  .row
+  - unless @game_started
+    .row
+      .col-xs-12
+        - player = "P#{@game.num_players + 1}"
+        = button_to "Add Player: #{player}", add_player_game_path, { class: "btn btn-lg btn-success", params: { username: player, force: true } }
+  .row{style: "padding-top: 20px;"}
     .col-xs-12
       = link_to "Poll/Refresh", "#", class: "btn btn-lg btn-success"
+
   .row{style: "padding-top: 20px;"}
     .col-xs-12
       .morph_form

@@ -8,7 +8,7 @@ class Game < ApplicationRecord
 
   def total_rounds
     t = config[:total_rounds] # validated 2-10
-    if config[:players].size > 5
+    if num_players > 5
       (Card::DECK_SIZE / t) # 6 => 8, 7 => 7, 8 => 6
     else
       t
@@ -49,7 +49,7 @@ class Game < ApplicationRecord
   end
 
   def too_many_players?
-    config[:players].size >= max_players
+    num_players >= max_players
   end
 
   def add_player(user_id, user_name)
@@ -64,7 +64,7 @@ class Game < ApplicationRecord
     end
 
     config[:players].push user_id
-    config[:waiting_on] = user_id if config[:players].size == 1 # first to join is first dealer
+    config[:waiting_on] = user_id if num_players.size == 1 # first to join is first dealer
 
     while config[:names].include?(user_name)
       # make sure username is unique by appending random numbers
@@ -86,13 +86,12 @@ class Game < ApplicationRecord
 
   def set_new_dealer
     # Could use dealer_index + 1 % size
-    config[:dealer_index] = config[:rounds_played] % config[:players].size
+    config[:dealer_index] = config[:rounds_played] % num_players
     config[:dealer] = config[:players][config[:dealer_index]] # deprecated - use index
   end
 
   def enough_players?
-    player_count = config[:players].size
-    player_count >= MIN_PLAYERS && player_count <= max_players
+    num_players >= MIN_PLAYERS && num_players <= max_players
   end
   
   def deal_cards
@@ -394,9 +393,13 @@ class Game < ApplicationRecord
     end
   end
 
+  def num_players
+    config[:players].size
+  end
+
   # returns the index of the next player
   def next_player_index(current_index)
-    (current_index + 1) % config[:players].size
+    (current_index + 1) % num_players
   end
 
   def get_next_player current_player 
@@ -408,8 +411,7 @@ class Game < ApplicationRecord
   # returns true if the input array is the same size as the number of
   # players we have, and doesn't include nil
   def player_size_and_nil_check arr
-    all_players = config[:players].size
-    return arr.present? && (arr.compact.size == all_players)
+    return arr.present? && (arr.compact.size == num_players)
   end
 
   # return true or false if we're done bidding
