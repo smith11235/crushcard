@@ -15,7 +15,8 @@
     %meta{name: "og:type", content: "website"}
     %meta{name: "og:description", content: "#{t(:name)}, the card game"}
 
-    = stylesheet_link_tag    'application', media: 'all'
+    = stylesheet_link_tag 'application', media: 'all'
+    = stylesheet_link_tag 'bootstrap_and_overrides', media: 'all' # TODO: update with rails 6 bootstrap setup - remove less
     = render 'application/favicon'
 
     / Custom Fonts
@@ -33,7 +34,4 @@
       = yield
 
     = render 'layouts/footer'
-
-  / TODO: move to head when webrtc logic wrapped up
-  = stylesheet_link_tag 'bootstrap_and_overrides' # why is this not just part of application.sass
-  = javascript_include_tag 'application' 
+    = javascript_include_tag 'application' 
