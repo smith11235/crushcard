@@ -33,3 +33,33 @@
         font-size: 100px
       .intro-text 
         font-size: 26px
+
+table.dataTable
+  thead th 
+    position: relative
+    background-image: none !important
+    
+    &.sorting:after, &.sorting_asc:after, &.sorting_desc:after 
+      position: absolute;
+      top: 12px;
+      right: 8px;
+      display: block;
+      font-family: FontAwesome;
+
+  .btn-default 
+    border: 1px solid #42dca3
+    color: #42dca3
+    background-color: transparent
+  
+    &:hover, &:focus 
+      border: 1px solid #42dca3
+      outline: 0
+      color: #000
+      background-color: #42dca3
+
+.content-section 
+  padding-top: 75px
+
+@media(min-width:767px)
+  .content-section 
+    padding-top: 150px
