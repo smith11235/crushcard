@@ -1,4 +1,4 @@
-- if !(@game_started || @is_playing)
+- unless @game_started || @is_playing || @game.num_players >= @game.max_players
   .join_game{style: "max-width: 300px; margin: auto;", data: { url: add_player_game_path }}
     %h4{style: "margin-bottom: 10px"}
       Join game!

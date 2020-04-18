@@ -1,5 +1,16 @@
-.container{style: "padding-top: 15%;"}
+.container{style: "padding-top: 20%;"}
   .row
     .col-xs-12.text-center
       %h1 Create a New Game
-      = render 'form'
+      .new_game
+        = form_for(@game) do |f|
+          .row
+            .col-sm-4
+              = f.text_field :name, class: "input-lg", placeholder: "Game Name", required: true
+            .col-sm-4
+              = text_field_tag :username, nil, class: "input-lg", placeholder: "Player Name", required: true
+            .col-sm-4
+              = f.submit class: "btn btn-lg btn-success"
+          .row{style: "margin-top: 30px;"}
+            .col-xs-12
+              = render 'options_table', form: true

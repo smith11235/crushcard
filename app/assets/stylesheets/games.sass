@@ -7,7 +7,6 @@
     margin-left: auto
     margin-right: auto
 
-
 .bid_form .btn
   border-top-left-radius: 0px !important
   border-bottom-left-radius: 0px !important
@@ -51,32 +50,6 @@
       font-size: 24px
       font-style: bold
 
-#board
-  .player_card
-    padding: 10px
-    border-radius: 5px
-    width: 270px
-    max-height: 170px
-    text-align: center
-    //&.you
-    &.waiting_for
-      border: 3px solid white 
-
-#game
-  .player_card .bid_hint
-    display: none
-  &.show_hints .player_card .bid_hint
-    display: block
-  &.small_format
-    // Overrides show hints: hide score + bid hint
-    .player_card
-      .score, .bid_hint
-        display: none
-
-  .player_card:hover
-    .bid_hint, .score
-      display: block
-
 .playing_card
   height: 110px
   width: 70px 
@@ -88,19 +61,26 @@
   z-index: 50
   &.unplayed
     border: 1px dashed #000000
-    z-index: 1
     background: green
+    z-index: 1
   &.played
     border: 1px solid #000000
     background: white
     &:hover
-      z-index: 800
+      z-index: 1000
 
 .trump_flag
   .playing_card.trump
     border: 3px solid purple
     background: white
- 
+.trump_suit 
+  position: absolute
+  left: -80px
+  top: -5px
+  @media screen and (max-width: 425px)
+    left: -20px
+    top: 5px
+    
 #board
   .playing_card
     position: absolute
@@ -114,7 +94,7 @@
 #cardPile
   margin: auto
   background: #969696
-  width: 760px
+  //width: 760px
   height: 120px
   padding: 5px
   -moz-border-radius: 10px
@@ -126,12 +106,15 @@
   //box-shadow: 0 0 .3em rgba(0, 0, 0, .8)
  
   .playing_card
+    z-index: 50
     &:hover
       border-width: 2px
       cursor: pointer
+      z-index: 600
     &.selected
       border-width: 2px
       background-color: lightblue
+      z-index: 600
     &.playing
       border-width: 3px
       background-color: lightgrey
@@ -141,5 +124,79 @@
   -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8)
   box-shadow: 0 0 .5em rgba(0, 0, 0, .8)
 
-table.dataTable
-  margin: auto
+.pregame_notice
+  border: 1px solid white
+  border-radius: 5px
+  padding: 15px
+
+#game
+  .player_card
+    padding: 10px
+    border-radius: 5px
+    text-align: center
+    max-height: 170px
+    width: 270px
+    //&.you
+    &.waiting_for
+      border: 3px solid white 
+
+    .name
+      margin-bottom: 10px
+    .score
+      margin-bottom: 10px
+    .bid_hint
+      display: none
+      margin-bottom: 5px
+
+  &.show_hints .player_card .bid_hint
+    display: block
+
+  // mobile format
+  @media screen and (max-width: 425px)
+    .player_card
+      padding: 5px
+      font-size: 85% !important
+      .score, .bid_hint
+        display: none
+
+    &.show_hints .player_card .bid_hint
+      display: none
+    &.show_hints .waiting_notice
+      display: none
+
+    .pregame_notice
+      padding: 5px
+      border: none
+      h4
+        font-size: 13px
+        font-weight: normal
+
+  .player_card:hover
+    cursor: pointer
+    .bid_hint, .score
+      display: block
+
+  @media screen and (max-width: 425px)
+    #cardPile
+      .card_wrapper
+        position: absolute
+    #card0
+      left: 5px
+    #card1
+      left: 45px
+    #card2
+      left: 85px
+    #card3
+      left: 125px
+    #card4
+      left: 165px
+    #card5
+      left: 205px
+    #card6
+      left: 245px
+    #card7
+      left: 285px
+    #card8
+      left: 325px
+    #card9
+      left: 365px 

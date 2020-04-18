@@ -4,10 +4,7 @@
 - extra_class << " trump" if card.present? && card.suit == @game.config[:trump_card].try(:suit) && @game.show_hints?
 - extra_class << (card.nil? ? " unplayed" : " played")
 - position ||= nil
-- style = position ? "top: #{position['top']}; left: #{position['left']};" : nil
-%canvas.playing_card{id: id, class: extra_class, style: style, data: card_data}
-
-- if params[:debug] && id =~ /table-card/
-  - style = "top: #{position['top']}; left: #{position['left']};"
-  .help_id{style: "color: black; font-size: 125%; font-weight: bold; position: absolute; z-index: 1000; #{style}"}
-    #{id.split("-")[-1]}
+%canvas.playing_card{id: id, class: extra_class, data: card_data}
+/ TODO: show card number if debug mode
+/= id[/\d+/]
+/ make .playing_card a wrapper, with canvas in it

@@ -1,28 +1,28 @@
 %header.intro
   .intro-body
     .container
+      %h1.brand-heading= t(:name)
+      %p.intro-text 
+        %b
+          A card game.
+          %br
+          %i Crush your friends anytime, anywhere.
       .row
-        .col-md-8.col-md-offset-2
-          %h1.brand-heading= t(:name)
-          %p.intro-text 
-            %b
-              A card game.
-              %br
-              %i Crush your friends anytime, anywhere.
+        .col-md-6.text-center.actions
           .row
-            .col-xs-6.text-right
+            .col-sm-6.text-center
               = link_to new_game_path, class: "btn btn-lg btn-success" do
                 %i.fa.fa-gamepad
-                Create new game
-            .col-xs-6.text-left
-              = link_to "#games", style: "margin-left:10px;", class: "btn btn-success btn-lg page-scroll" do
+                Create game
+            .col-sm-6.text-center
+              = link_to "#games", class: "btn btn-success btn-lg page-scroll" do
                 %i.fa.fa-users
-                Join existing game
+                Join game
           .row
-            .col-xs-12{style: "margin-top: 20px;"}
+            .col-xs-12.text-center
               = link_to "#rules", class: "btn btn-lg page-scroll btn-success" do
                 %i.fa.fa-book
-                Learn the rules
+                Learn rules
 
 %section#games.container.content-section.text-center
   %h1 Games in Progress
@@ -42,11 +42,11 @@
           %td= "#{distance_of_time_in_words(Time.now, game.created_at)} ago"
           %td= game.load_state[:players].size
           %td= link_to('View', game, data: { no_turbolink: true }, class: "btn btn-md btn-default")
-  %br/
-  = link_to new_game_path, class: "btn btn-lg btn-default" do
+  %br
+  = link_to new_game_path, class: "btn btn-lg btn-success" do
     %i.fa.fa-gamepad
     Create new game
-  %br/
+  %br
 
 %section#history.container.content-section.text-center
   .row

@@ -1,21 +1,20 @@
 - poll = params[:debug] ? false : @poll
 - extra_class = (@game.show_hints? ? [:show_hints] : [])
 - extra_class << (@game.show_hints? && !@game.ignore_trump? ? :trump_flag : nil)
-- extra_class << board_layout['board_class'] # aka; small_format / reuse as mobile format
+- extra_class << "layout-#{@game.num_players}"
 
 #game{class: extra_class.compact, data: {url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s } }
   - if @winners.present?
-    %h2{style: "margin-bottom: 10px;"}
-      Game Over:
-      Winner:
-      = "\"#{@winners.join(', ')}\""
-    = link_to "New Game", new_game_path, class: "btn btn-lg btn-success"
-    %br
+    .winner
+      %h2{style: "margin-bottom: 10px;"}
+        Game Over:
+        Winner:
+        = "\"#{@winners.join(', ')}\""
+      = link_to "New Game", new_game_path, class: "btn btn-lg btn-success"
 
   .row
     .col-xs-12
-      - top_margin = board_layout.try(:[], 'top_margin') || '30px'
-      #board-wrapper{style: "margin-top: #{top_margin}; margin-bottom: 0px;"}
+      #board-wrapper
         #message.hidden
           .text
           .ok
@@ -27,8 +26,8 @@
             - extra_class << :winning if winning
             - extra_class << :your_slot if index == 0
             - card = @played_cards[index]
-            = render 'playing_card', id: "table-card-#{index}", card: card, extra_class: extra_class, position: board_layout['cards'][index]
-            = render 'player', index: index, you: (@is_playing && index == 0), position: board_layout['players'][index]
+            = render 'playing_card', id: "table-card-#{index}", card: card, extra_class: extra_class
+            = render 'player', index: index, you: (@is_playing && index == 0)
 
       .row{style: "height: 130px;"}
         .col-xs-3{style: "padding-right: 0px; position: relative;"}
@@ -37,33 +36,33 @@
         .col-xs-6
         .col-xs-3{style: "position: relative;"}
           - if @dealt
-            .trump_suit{style: "position: absolute; left: -80px; top: -5px;"}
+            .trump_suit
               %h4{style: "margin-bottom: 10px;"} 
                 - if @game.ignore_trump?
                   No Trump!!
                 - else
                   Trump Suit
               = render 'playing_card', id: :trump, card: @game.config[:trump_card]
+
           - elsif !@game_started
-            %h4{style: "border: 1px solid white; border-radius: 5px; padding: 15px;"} 
-              Waiting For: 
-              %br
-              #{@game.config[:waiting_on_reason]}.
-              %br
-              - if @enough_players
-                - if @can_start_game
-                  You
-                - else
-                  Dealer
-                can Deal/Start.
-              - else
-                Need more players 
+            .pregame_notice
+              %h4
                 %br
-                (for #{Game::MIN_PLAYERS} to #{@game.max_players})
-      .row
-        .col-xs-12
-          Your Hand 
-          %i (double click to play)
-          #cardPile
+                - if @enough_players
+                  - if @can_start_game
+                    You
+                  - else
+                    Dealer
+                  can Deal/Start.
+                - else
+                  Need more players 
+                  %br
+                  (#{Game::MIN_PLAYERS} to #{@game.max_players})
+
+      - if @game_started && @is_playing
+        .row
+          .col-xs-12
+            Your Hand 
+            %i (double click to play)
             = render "card_pile"
   = render "debug"

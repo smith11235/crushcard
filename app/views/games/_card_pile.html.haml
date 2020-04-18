@@ -1,4 +1,5 @@
 - unless @cards.empty?
-  - @cards.each_with_index do |card,i|
-    %span{id: "card#{i}"}
-      = render 'playing_card', id: "canv#{i}", card: card
+  #cardPile{style: "position: relative;"}
+    - @cards.each_with_index do |card,i|
+      %span.card_wrapper{id: "card#{i}"}
+        = render 'playing_card', id: "canv#{i}", card: card
