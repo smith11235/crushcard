@@ -1,4 +1,7 @@
 - unless @cards.empty?
+  %h5{style: "margin-bottom: 5px;"}
+    Your Hand 
+    %i (double click to play)
   #cardPile{style: "position: relative;"}
     - @cards.each_with_index do |card,i|
       %span.card_wrapper{id: "card#{i}"}

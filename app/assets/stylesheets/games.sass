@@ -7,31 +7,38 @@
     margin-left: auto
     margin-right: auto
 
-.bid_form .btn
-  border-top-left-radius: 0px !important
-  border-bottom-left-radius: 0px !important
+.controls
+  .bid_form .btn
+    border-top-left-radius: 0px !important
+    border-bottom-left-radius: 0px !important
 
 #game-wrapper
   text-align: center
   margin: auto
 
-#board-wrapper
+.board-wrapper
   position: relative
   width: 300px
   height: 300px
   margin: 0 auto
-  #board, #message
+  .board, .message
     width: 300px
     height: 300px
     border-radius: 5px
     padding: 10px
     margin: 0 
 
-  #board
+  .board
     position: relative 
     border: 1px solid green
     background-color: green
-  #message
+
+    .playing_card
+      position: absolute
+      &.your_slot
+        &.hovered 
+          background: #aaa
+  .message
     position: absolute
     z-index: 1000
     border: 1px solid black
@@ -58,16 +65,19 @@
   -webkit-border-radius: 7px
   border-radius: 7px
   padding: 5px
-  z-index: 50
+  z-index: 10
   &.unplayed
     border: 1px dashed #000000
     background: green
-    z-index: 1
   &.played
     border: 1px solid #000000
     background: white
+    z-index: 11
     &:hover
       z-index: 1000
+  &.winning
+    border-width: 2px
+    border-color: red
 
 .trump_flag
   .playing_card.trump
@@ -81,15 +91,6 @@
     left: -20px
     top: 5px
     
-#board
-  .playing_card
-    position: absolute
-    &.your_slot
-      &.hovered 
-        background: #aaa
-    &.winning
-      border-width: 2px
-      border-color: red
 
 #cardPile
   margin: auto
@@ -129,6 +130,7 @@
   border-radius: 5px
   padding: 15px
 
+
 #game
   .player_card
     padding: 10px
@@ -150,6 +152,14 @@
 
   &.show_hints .player_card .bid_hint
     display: block
+
+  .controls
+    .waiting_notice
+      display: none
+  &.show_hints
+    .waiting_notice
+      display: block
+
 
   // mobile format
   @media screen and (max-width: 425px)

@@ -6,16 +6,15 @@ window.load_new_board = ()->
   $('#game-wrapper').html(board)
   if window.new_board['video'] && window.new_board.video.length > 0
     $(document).trigger("vidchat_message", { streams: window.new_board.video })
-    
 
 window.show_game_message = (message)->
-  msg = $('#game-wrapper #message')
+  msg = $('#game-wrapper .message')
   msg.find(".text").html(message)
   msg.removeClass("hidden")
   msg.find("a").focus()
   msg.one "click", "a", (e)->
     e.preventDefault();
-    $('#game-wrapper #message').addClass("hidden");
+    $('#game-wrapper .message').addClass("hidden");
     return false
 
 class Games
@@ -57,7 +56,6 @@ class Games
 
   chime: =>
     sound = $(document).find(".youre_up_bell").data("src");
-    console.log("YOUR UP CHIME: " + sound);
     audio = new Audio(sound);
     audio.volume = 0.05;
     audio.play();
@@ -159,6 +157,7 @@ jQuery ->
     window.game = g;
     new Vidchat()
 
+  # move to index
   $('#game_list').DataTable({
     "order": [[0, "desc"]],
     "columnDefs":[{ "targets":[0], "visible": false, "searchable": false}]
