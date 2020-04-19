@@ -1,10 +1,9 @@
 - show = @names[index].present?
 - you ||= false
-- classes = ''
-- classes << " you" if you
-- classes << " waiting_for" if show && @indexes[index] == @waiting_on_index && @enough_players
-
-.player_card{id: "player-#{index}", class: classes}
+- classes = ["player-#{index}"]
+- classes << :you if you
+- classes << :waiting_for if show && @indexes[index] == @waiting_on_index && @enough_players
+.player_card{class: classes}
   %h3.name
     - if show
       "#{@names[index]}"
@@ -23,6 +22,6 @@
       = bid.first
  
     - if params[:debug]
-      %h5{style: "margin-bottom: 5px;"}
+      %h6{style: "margin-bottom: 5px;"}
         Seat#: #{index}
         Profile#: #{@indexes[index]}

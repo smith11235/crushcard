@@ -7,7 +7,7 @@
         %i.fa.fa-play-circle
         #{t('name').upcase}
         - if in_game 
-          = "- \"#{@game.name}\""
+          /= "- \"#{@game.name}\""
           = " - Round ##{@game.config[:rounds_played] + 1}"
 
       - if in_game

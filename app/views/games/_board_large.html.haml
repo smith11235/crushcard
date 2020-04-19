@@ -1,0 +1,9 @@
+.board-wrapper-large{class: "layout-#{@game.num_players}"}
+  .message.hidden
+    .text
+    .ok
+      = link_to "Ok", "#", class: "btn btn-success btn-lg"
+  .board
+    - (0..num_players - 1).each do |index|
+      = render 'player', index: index, you: yours?(index)
+      = render 'card_on_table', index: index

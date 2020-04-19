@@ -1,0 +1,40 @@
+.player_card
+  border-radius: 5px
+  text-align: center
+  max-height: 170px
+  width: 270px
+
+  padding: 10px
+  &.waiting_for
+    border: 3px solid white 
+  .name
+    margin-bottom: 10px
+  .score
+    margin-bottom: 10px
+  .bid_hint
+    display: none
+    margin-bottom: 5px
+
+
+#game.show_hints
+  .player_card .bid_hint
+    display: block
+
+.board-wrapper-small
+  .player_card
+    padding: 5px
+    width: auto
+    min-width: 200px
+    max-width: 240px
+    .name
+      font-size: 20px
+    .name, .bid_hint, .score
+      margin-bottom: 5px
+    .score, .bid_hint
+      display: none
+
+.player_card:hover
+  cursor: pointer
+  .bid_hint, .score
+    display: block
+

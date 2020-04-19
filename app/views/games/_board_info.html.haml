@@ -1,7 +1,7 @@
 - poll = params[:debug] ? false : @poll
 - extra_class = (@game.show_hints? ? [:show_hints] : [])
 - extra_class << (@game.show_hints? && !@game.ignore_trump? ? :trump_flag : nil)
-- extra_class << "layout-#{@game.num_players}"
+- extra_class << "game-over" if @winners.present?
 - game_info = {id: @game.id, url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s }
 
 #game{class: extra_class.compact, data: game_info}
@@ -15,35 +15,25 @@
 
   .row
     .col-xs-12
-      .board-wrapper
-        .message.hidden
-          .text
-          .ok
-            = link_to "Ok", "#", class: "btn btn-success btn-lg"
-  
-        .board
-          - (0..num_players - 1).each do |index|
-            - winning = @names[index].present? && @indexes[index] == @game.config[:winner_index]
-            - extra_class = []
-            - extra_class << :winning if winning
-            - extra_class << :your_slot if index == 0
-            - card = @played_cards[index]
-            = render 'playing_card', id: "table-card-#{index}", card: card, extra_class: extra_class
-            = render 'player', index: index, you: (@is_playing && index == 0)
+      = render 'board_large'
+      = render 'board_small'
 
-      .row{style: "height: 130px;"}
+      .row.info_actions
         .col-xs-3.controls_wrapper{style: "padding-right: 0px; position: relative;"}
           = render "controls"
         .col-xs-6
         .col-xs-3{style: "position: relative;"}
           - if @dealt
             .trump_suit
-              %h4{style: "margin-bottom: 10px;"} 
+              %h4.trump_label{style: "white-space: nowrap;"}
                 - if @game.ignore_trump?
-                  No Trump!!
+                  No Trump
                 - else
-                  Trump Suit
-              = render 'playing_card', id: :trump, card: @game.config[:trump_card]
+                  Trump
+                  %span.large_label
+                    Suit
+              .trump_card
+                = render 'playing_card', id: :trump, card: @game.config[:trump_card]
           - elsif !@game_started
             .pregame_notice
               %h4{style: "margin-bottom: 0px;"}

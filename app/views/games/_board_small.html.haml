@@ -1,0 +1,21 @@
+.board-wrapper-small
+  %table.board
+    %thead
+      %tr
+        %th 
+          %h4 Player
+        %th 
+          %h4 Card
+    %tbody
+      - (0..num_players - 1).each do |index|
+        %tr
+          %td
+            = render 'player', index: index, you: yours?(index)
+          %td
+            .card_column
+              = render 'card_on_table', index: index
+
+  .message.hidden
+    .text
+    .ok
+      = link_to "Ok", "#", class: "btn btn-success btn-lg"

@@ -1,13 +1,16 @@
 DrawCard = {
     clear_bottom_card: function(game){
-      canvas = game.find("#table-card-0")[0];
+      canvas = game.find(".table-card-0")[0];
       context = canvas.getContext("2d");
       context.clearRect(0,0,canvas.width, canvas.height);
     },
-    draw_card: function(suit, value, canvas, game){
-        canvas = game.find("#" + canvas)[0];
+    draw_card: function(card){
+        var suit = card.data('suit'), 
+          value = card.data('value');
+        var canvas = card[0];
         canvas.height = 110;
         canvas.width = 70;
+
         var context = canvas.getContext("2d");
      
         var suit_width = canvas.width * 0.285;

@@ -11,12 +11,19 @@
   .bid_form .btn
     border-top-left-radius: 0px !important
     border-bottom-left-radius: 0px !important
+  padding-top: 20px
+
+  @media screen and (min-width: 426px)
+    padding: 0px
+    position: absolute
+    top: 15px
+    right: -40px
 
 #game-wrapper
   text-align: center
   margin: auto
 
-.board-wrapper
+.board-wrapper-large
   position: relative
   width: 300px
   height: 300px
@@ -75,23 +82,37 @@
     z-index: 11
     &:hover
       z-index: 1000
-  &.winning
-    border-width: 2px
-    border-color: red
 
 .trump_flag
   .playing_card.trump
     border: 3px solid purple
     background: white
-.trump_suit 
-  position: absolute
-  left: -80px
-  top: -5px
-  @media screen and (max-width: 425px)
-    left: -20px
-    top: 5px
-    
 
+.trump_suit 
+  @media screen and (min-width: 426px)
+    position: absolute
+    left: -80px
+    top: -5px
+
+  .trump_label
+    margin-bottom: 10px
+    @media screen and (max-width: 425px)
+      margin-bottom: 5px
+      .large_label
+        display: none
+  .trump_card
+    @media screen and (max-width: 425px)
+      // TODO: .half_card
+      height: 70px
+      overflow-y: hidden
+      margin-bottom: 5px
+      float: right
+
+.info_actions
+  height: 130px
+  @media screen and (max-width: 425px)
+    height: auto
+   
 #cardPile
   margin: auto
   background: #969696
@@ -102,9 +123,6 @@
   -webkit-border-radius: 10px
   border-radius: 10px
   background-color: #6f6f6f
-  //-moz-box-shadow: 0 0 .3em rgba(0, 0, 0, .8)
-  //-webkit-box-shadow: 0 0 .3em rgba(0, 0, 0, .8)
-  //box-shadow: 0 0 .3em rgba(0, 0, 0, .8)
  
   .playing_card
     z-index: 50
@@ -130,48 +148,24 @@
   border-radius: 5px
   padding: 15px
 
-
 #game
-  .player_card
-    padding: 10px
-    border-radius: 5px
-    text-align: center
-    max-height: 170px
-    width: 270px
-    //&.you
-    &.waiting_for
-      border: 3px solid white 
-
-    .name
-      margin-bottom: 10px
-    .score
-      margin-bottom: 10px
-    .bid_hint
+  &.game_over
+    .controls
       display: none
-      margin-bottom: 5px
-
-  &.show_hints .player_card .bid_hint
-    display: block
 
   .controls
     .waiting_notice
       display: none
+
   &.show_hints
     .waiting_notice
       display: block
 
+    .playing_card.played.winning
+      border-width: 2px
+      border-color: red
 
-  // mobile format
-  @media screen and (max-width: 425px)
-    .player_card
-      padding: 5px
-      font-size: 85% !important
-      .score, .bid_hint
-        display: none
-
-    &.show_hints .player_card .bid_hint
-      display: none
-    &.show_hints .waiting_notice
+    .waiting_notice
       display: none
 
     .pregame_notice
@@ -181,33 +175,41 @@
         font-size: 13px
         font-weight: normal
 
-  .player_card:hover
-    cursor: pointer
-    .bid_hint, .score
-      display: block
+.show
+  padding-top: 120px
+.board-wrapper-small
+  display: none
 
-  @media screen and (max-width: 425px)
-    #cardPile
-      width: 100%
-      .card_wrapper
-        position: absolute
-      #card0
-        left: 5px
-      #card1
-        left: 45px
-      #card2
-        left: 85px
-      #card3
-        left: 125px
-      #card4
-        left: 165px
-      #card5
-        left: 205px
-      #card6
-        left: 245px
-      #card7
-        left: 285px
-      #card8
-        left: 325px
-      #card9
-        left: 365px 
+@media screen and (max-width: 425px)
+  .show
+    padding-top: 70px
+  .board-wrapper-large
+    display: none
+  .board-wrapper-small
+    display: block 
+
+@media screen and (max-width: 425px)
+  #cardPile
+    width: 100%
+    .card_wrapper
+      position: absolute
+    #card0
+      left: 5px
+    #card1
+      left: 45px
+    #card2
+      left: 85px
+    #card3
+      left: 125px
+    #card4
+      left: 165px
+    #card5
+      left: 205px
+    #card6
+      left: 245px
+    #card7
+      left: 285px
+    #card8
+      left: 325px
+    #card9
+      left: 365px 

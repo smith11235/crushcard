@@ -1,15 +1,15 @@
-.controls{style: "position: absolute; top: 15px; right: -40px;"}
+.controls
   - if @waiting_on !~ /game\sto\sstart/i # prenotice displayed elsewehre
     .waiting_notice
       %h4{style: "margin-bottom: 10px;"}
         %i
           - name = @waiting_on_index == @indexes[0] ? "You" : @game.config[:names][@waiting_on_index] 
-          On "#{name}"
+          "#{name}"
           %br
           to #{@waiting_on}
   - if @can_start_game && !@dealt
     = link_to 'Start', "#", class: "start_game btn btn-lg btn-success", data: {url: start_game_path} 
-  - if @waiting_on_you && @game.config[:waiting_on_reason] == "Clear" && @winners.try(:empty?)
+  - if @waiting_on_you && @game.config[:waiting_on_reason] == "Clear" 
     = link_to 'Clear', "#", class: "clear_hand btn btn-lg btn-success", data: {url: deal_game_path}
   
   - show_bid_form = @waiting_on_you && @dealt && !@done_bidding

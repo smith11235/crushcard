@@ -1,0 +1,5 @@
+- extra_class = []
+- extra_class << :winning if @indexes[index] == @game.config[:winner_index]
+- extra_class << :your_slot if yours?(index)
+- card = @played_cards[index]
+= render 'playing_card', id: "table-card-#{index}", card: card, extra_class: extra_class

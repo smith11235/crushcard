@@ -13,11 +13,11 @@ CardHandler = function(game){
       game.find(".playing_card").each(function(i, card){
         card = $(card);
         if(card.data('suit')){
-          DrawCard.draw_card(card.data('suit'), card.data('value'), card.attr('id'), game);
+          DrawCard.draw_card(card)
         }
       });
     
-      game.find('#table-card-0').droppable( {
+      game.find('.table-card-0').droppable( {
         accept: '#cardPile div',
         hoverClass: 'hovered',
         drop: testDrop
@@ -66,9 +66,13 @@ CardHandler = function(game){
         */
         
         var suit = card.data('suit');
-        var value = card.data('actualvalue');
+        var value = card.data('actualvalue'); // TODO: remove actual value - just extra complexity
 
-        DrawCard.draw_card(suit, card.data('value'), "table-card-0", game);
+        var to_card = game.find(".table-card-0")
+        to_card.data("suit", card.data('suit'));
+        to_card.data("value", card.data('value'));
+
+        DrawCard.draw_card(to_card);
 
         $.ajax({
           url: player_action_path + ".json", 
