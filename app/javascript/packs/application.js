@@ -15,7 +15,8 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import jquery
-import jquery_ujs
-import jquery-ui
-import twitter/bootstrap
+//import jquery
+//import jquery_ujs
+//import jquery-ui
+//import twitter/bootstrap
+import '../src/'
