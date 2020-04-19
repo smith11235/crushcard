@@ -7,13 +7,16 @@
         %th 
           %h4 Card
     %tbody
+      / Note: 0 spot is You, need to render You last for mobile display
+      - last_index = num_players - 1
       - (0..num_players - 1).each do |index|
+        - use_index = last_index - index 
         %tr
           %td
-            = render 'player', index: index, you: yours?(index)
+            = render 'player', index: use_index, you: yours?(use_index)
           %td
             .card_column
-              = render 'card_on_table', index: index
+              = render 'card_on_table', index: use_index
 
   .message.hidden
     .text
