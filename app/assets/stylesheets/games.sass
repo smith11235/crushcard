@@ -113,35 +113,6 @@
   @media screen and (max-width: 425px)
     height: auto
    
-#cardPile
-  margin: auto
-  background: #969696
-  width: 750px
-  height: 120px
-  padding: 5px
-  -moz-border-radius: 10px
-  -webkit-border-radius: 10px
-  border-radius: 10px
-  background-color: #6f6f6f
- 
-  .playing_card
-    z-index: 50
-    &:hover
-      border-width: 2px
-      cursor: pointer
-      z-index: 600
-    &.selected
-      border-width: 2px
-      background-color: lightblue
-      z-index: 600
-    &.playing
-      border-width: 3px
-      background-color: lightgrey
-
-#cardPile .ui-draggable-dragging 
-  -moz-box-shadow: 0 0 .5em rgba(0, 0, 0, .8)
-  -webkit-box-shadow: 0 0 .5em rgba(0, 0, 0, .8)
-  box-shadow: 0 0 .5em rgba(0, 0, 0, .8)
 
 .pregame_notice
   border: 1px solid white
@@ -187,29 +158,3 @@
     display: none
   .board-wrapper-small
     display: block 
-
-@media screen and (max-width: 425px)
-  #cardPile
-    width: 100%
-    .card_wrapper
-      position: absolute
-    #card0
-      left: 5px
-    #card1
-      left: 45px
-    #card2
-      left: 85px
-    #card3
-      left: 125px
-    #card4
-      left: 165px
-    #card5
-      left: 205px
-    #card6
-      left: 245px
-    #card7
-      left: 285px
-    #card8
-      left: 325px
-    #card9
-      left: 365px 

@@ -5,7 +5,7 @@ CardHandler = function(game){
      played_cards = d.table,
      player_action_path = d.playerPath;
 
-   var hand = game.find("#cardPile"); 
+   var hand = game.find("#hand"); 
 
     var init = function(){
       hand.on("click", ".playing_card", card_in_hand_clicked)
@@ -18,7 +18,7 @@ CardHandler = function(game){
       });
     
       game.find('.table-card-0').droppable( {
-        accept: '#cardPile div',
+        accept: '#hand div',
         hoverClass: 'hovered',
         drop: testDrop
       });
@@ -28,7 +28,7 @@ CardHandler = function(game){
       // TODO: drag and drop not working
       for ( var i=1; i<=10; i++ ) {
         $('<div>' + words[i-1] + '</div>').data( 'number', i ).appendTo( '#cardSlots' ).droppable( {
-          accept: '#cardPile .playing_card',
+          accept: '#hand .playing_card',
           hoverClass: 'hovered',
           drop: handleCardDrop
         });
