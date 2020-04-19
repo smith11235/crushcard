@@ -3,8 +3,8 @@
   text-align: center
   max-height: 170px
   width: 270px
-
   padding: 10px
+
   &.waiting_for
     border: 3px solid white 
   .name
@@ -15,26 +15,28 @@
     display: none
     margin-bottom: 5px
 
+#game
+  .board-wrapper-small
+    .player_card
+      padding: 5px
+      width: auto
+      min-width: 200px
+      max-width: 240px
+      .name
+        font-size: 20px
+      .name, .bid_hint, .score
+        margin-bottom: 5px
+      .score, .bid_hint
+        display: none
 
-#game.show_hints
-  .player_card .bid_hint
-    display: block
+  &.show_hints
+    .player_card 
+      .bid_hint, .score
+        display: block
 
-.board-wrapper-small
-  .player_card
-    padding: 5px
-    width: auto
-    min-width: 200px
-    max-width: 240px
-    .name
-      font-size: 20px
-    .name, .bid_hint, .score
-      margin-bottom: 5px
-    .score, .bid_hint
-      display: none
 
-.player_card:hover
-  cursor: pointer
-  .bid_hint, .score
-    display: block
+  .player_card:hover
+    cursor: pointer
+    .bid_hint, .score
+      display: block
 
