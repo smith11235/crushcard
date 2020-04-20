@@ -15,8 +15,17 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-//import jquery
-//import jquery_ujs
-//import jquery-ui
-//import twitter/bootstrap
-import '../src/'
+import '../src/grayscale.js' // homepage ui helper
+import '../src/draw_card.js'
+import '../src/card_handler.js'
+import '../src/game.js' //.coffee for source
+//import '../src/vidchat.js' // TODO
+
+$(function() {
+  var game = $("#game");
+  if(game.length > 0){
+	  window.new_board = { html: game[0] };
+    window.load_new_board();
+    //new Vidchat();
+  }
+});

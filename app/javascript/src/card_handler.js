@@ -1,23 +1,37 @@
-CardHandler = function(game){
-    var correctCards = 0;
-    var d = game.data();
-    var game_id = d.id,
-     played_cards = d.table,
-     player_action_path = d.playerPath;
+(function() {
+  $(document).on("card_handler_start", function(e, raw_game){
+    console.log("Card handler:", raw_game);
+    new CardHandler(raw_game);
+  })
 
-   var hand = game.find("#hand"); 
+  var CardHandler = function(raw_game){
+    var game = $(raw_game);
+    var correctCards = 0;
+    var player_action_path;
+    var hand;
 
     var init = function(){
+      console.log("CardHandler: Init");
+      player_action_path = game.data("playerPath");
+      hand = game.find("#hand"); 
+
       hand.on("click", ".playing_card", card_in_hand_clicked)
      
-      game.find(".playing_card").each(function(i, card){
+      game.find(".playing_card.played").each(function(i, card){
+        console.log("Load Card", card);
         card = $(card);
         if(card.data('suit')){
-          DrawCard.draw_card(card)
+          //card.trigger("draw_card");
+          window.draw_card(card);
         }
       });
     
-      game.find('.table-card-0').droppable( {
+      setup_drag_and_drop();
+    }
+    
+    var setup_drag_and_drop = function(){
+      return;
+      game.find('.table-card-0').droppable({
         accept: '#hand div',
         hoverClass: 'hovered',
         drop: testDrop
@@ -34,19 +48,19 @@ CardHandler = function(game){
         });
       }
     }
-    
-  var card_in_hand_clicked = function(e){
-    if(hand.find(".playing").length > 0){ return; } // already played a card
-    var card = $(e.target);
 
-    if(card.hasClass("selected")){
-      card.addClass("playing");
-      playCard(e);
-    } else {
-      hand.find(".selected").removeClass("selected");
-      card.addClass("selected");
-    }
-  };
+    var card_in_hand_clicked = function(e){
+      if(hand.find(".playing").length > 0){ return; } // already played a card
+      var card = $(e.target);
+  
+      if(card.hasClass("selected")){
+        card.addClass("playing");
+        playCard(e);
+      } else {
+        hand.find(".selected").removeClass("selected");
+        card.addClass("selected");
+      }
+    };
     
     function playCard(event) {
       var card = $(event.target);
@@ -71,8 +85,7 @@ CardHandler = function(game){
         var to_card = game.find(".table-card-0")
         to_card.data("suit", card.data('suit'));
         to_card.data("value", card.data('value'));
-
-        DrawCard.draw_card(to_card);
+        to_card.trigger("draw_card");
 
         $.ajax({
           url: player_action_path + ".json", 
@@ -99,7 +112,7 @@ CardHandler = function(game){
 
     var show_failure = function(message){
       hand.find(".playing").removeClass("playing")
-      DrawCard.clear_bottom_card(game);
+      $(document).trigger("card_handler_clear_bottom")
       window.show_game_message(message)
     }
     
@@ -114,7 +127,7 @@ CardHandler = function(game){
       $.ajax({
         url: player_action_path + ".json", 
         type: "POST", 
-        data: {id: game_id, suit: cardSuit, value: cardValue},
+        data: {suit: cardSuit, value: cardValue},
         success: card_played,
         error: failed
       });
@@ -140,5 +153,6 @@ CardHandler = function(game){
        
     }
 
-  init();
-}
+    init();
+  }
+}).call(this);

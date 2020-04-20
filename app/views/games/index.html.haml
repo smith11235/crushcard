@@ -29,19 +29,17 @@
   %table#game_list.table
     %thead
       %tr
-        %th id
+        %th Id
         %th Name
         %th Created
-        %th Number of players
-        %th View
+        %th Players
     %tbody
-      - @games.each do |game|
+      - Game.order(created_at: :desc).limit(5).each do |game|
         %tr
-          %td= game.id
+          %td= link_to(game.id, game, class: "btn btn-lg btn-success")
           %td= game.name
           %td= "#{distance_of_time_in_words(Time.now, game.created_at)} ago"
-          %td= game.load_state[:players].size
-          %td= link_to('View', game, data: { no_turbolink: true }, class: "btn btn-md btn-default")
+          %td= game.config[:players].size
   %br
   = link_to new_game_path, class: "btn btn-lg btn-success" do
     %i.fa.fa-gamepad

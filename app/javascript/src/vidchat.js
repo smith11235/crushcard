@@ -147,5 +147,4 @@ Vidchat = function(){
     const remoteVideo = document.getElementById("video-1");
     remoteVideo.srcObject = event.streams[0];
   });
-
 }
