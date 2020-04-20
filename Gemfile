@@ -52,9 +52,10 @@ gem 'puma'
 # gem 'debugger', group: [:development, :test]
 
 # bootstrap
-gem 'less' # TODO: remove - should be sass right?
-gem 'less-rails' # TODO remove
-gem 'twitter-bootstrap-rails'
+#gem 'less' # TODO: remove - should be sass right?
+#gem 'less-rails' # TODO remove
+#gem 'twitter-bootstrap-rails'
+#gem 'bootstrap'
 
 # sidekiq
 gem 'sidekiq'

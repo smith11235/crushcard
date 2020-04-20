@@ -15,11 +15,17 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import '../src/grayscale.js' // homepage ui helper
-import '../src/draw_card.js'
-import '../src/card_handler.js'
-import '../src/game.js' //.coffee for source
+require("@rails/ujs").start()
+require("channels")
+require("jquery-ui-dist/jquery-ui")
+//require('bootstrap')
+require('../src/grayscale.js') // homepage ui helper
+require('../src/draw_card.js')
+require('../src/card_handler.js')
+require('../src/game.js') //.coffee for source
 //import '../src/vidchat.js' // TODO
+// activestorage
+// channels
 
 $(function() {
   var game = $("#game");
