@@ -1,15 +1,16 @@
 %table.game_options
-  %thead
+  %thead{class: (form ? nil : "d-none")}
     %tr
       %th
-        %h4{style: 'margin-bottom: 15px;'} Special Options
+        %h5{style: 'margin-bottom: 15px;'} 
+          Options
       %th
-        %h4{style: 'margin-bottom: 15px;'} Selected
+        %h5{style: 'margin-bottom: 15px;'} Selected
   %tbody
     - t("options", locale: :en).each do |k, c|
       %tr
         %td
-          %h5{style: "margin-bottom: 15px;"}= c[:label]
+          %h6= c[:label]
         %td
           - v = @game.persisted? ? @game.config[k] : t("options.#{k}.default") 
           - opts = c[:select]
@@ -19,7 +20,7 @@
             - else # just total_rounds
               = number_field_tag k, v, style: "width: 50px;", max: 10, min: 2
           - else
-            %h5{style: "margin-bottom: 15px;"}
+            %h6
               %i
                 - v = opts.find{|o| o.last == v}.first if opts.present?
                 = v

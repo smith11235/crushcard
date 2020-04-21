@@ -1,6 +1,11 @@
 #rules-modal
-  color: black
-
+  .modal-content
+    background-color: #333333
+  .modal-title
+    color: white
+    a h4
+      color: white !important
+ 
 .join_game
   max-width: 300px
   margin: auto
@@ -13,6 +18,15 @@
     text-align: center
     margin-left: auto
     margin-right: auto
+  a
+    color: #42dca3
+  tr
+    border-bottom: 1px white solid
+    &:last-child
+      border-bottom: none
+    h6
+      margin-top: 10px
+  
 
 #game-wrapper
   text-align: center
@@ -131,6 +145,7 @@
     
 
   @media screen and (max-width: 425px)
+    height: 110px
     .left_actions
       position: absolute
       left: 0px

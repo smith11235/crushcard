@@ -4,8 +4,8 @@
       .modal-header{style: "height: 50px;"}
         %h4.modal-title.pull-left Game Rules & Options
 
-        = link_to "#", class: "close pull-right", style: "float: right", data: { dismiss: "modal"} do
-          %h4{style: "color: black !important;"} X
+        = link_to "#", class: "pull-right", data: { dismiss: "modal"} do
+          %h4 X
       .modal-body
         %p.text-center{style: "margin-bottom: 20px;"}
           = link_to "View/Read the Rules", root_path(anchor: "#rules"), target: "_blank", class: "btn btn-lg btn-success"
