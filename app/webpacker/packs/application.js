@@ -22,10 +22,10 @@ import 'bootstrap'
 //import Rails from "@rails/ujs"
 
 require("jquery-ui-dist/jquery-ui")
-require('../src/grayscale.js') // homepage ui helper
-require('../src/draw_card.js')
-require('../src/card_handler.js')
-require('../src/game.js') //.coffee for source
+require('../js/grayscale.js') // homepage ui helper
+require('../js/draw_card.js')
+require('../js/card_handler.js')
+require('../js/game.js') //.coffee for source
 //import '../src/vidchat.js' // TODO
 
 //require("@rails/ujs").start()
