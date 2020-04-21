@@ -9,8 +9,6 @@
           #{t('name').upcase}
           - if in_game 
             = "##{@game.id}"
-            /= "- \"#{@game.name}\""
-            /= " - Round ##{@game.config[:rounds_played] + 1}"
 
       - if in_game
         %ul.nav.navbar-nav.navbar-right

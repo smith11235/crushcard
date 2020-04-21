@@ -1,9 +1,9 @@
 - poll = params[:debug] ? false : @poll
 - extra_class = (@game.show_hints? ? [:show_hints] : [])
 - extra_class << (@game.show_hints? && !@game.ignore_trump? ? :trump_flag : nil)
+- extra_class << "bidding" if @dealt && !@done_bidding
 - extra_class << "game-over" if @winners.present?
 - game_info = {id: @game.id, url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s }
-
 #game{class: extra_class.compact, data: game_info}
   .container.game_container
     - if @winners.present?

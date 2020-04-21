@@ -186,6 +186,20 @@
     .pregame_notice
       border: none
       padding: 5px
+  .hand_note
+    .bidding
+      display: none
+    .play
+      display: inline
+  &.bidding
+    .bid_hint
+      display: block !important
+    .hand_note
+      .bidding
+        display: inline 
+      .play
+        display: none
+
 
 .board-wrapper-small
   display: none

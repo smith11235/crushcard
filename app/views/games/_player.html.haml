@@ -20,8 +20,20 @@
     - bid = @round_scores[index]
     %h6.bid_hint{style: "color: #{bid.last}"}
       = bid.first
- 
+    - if index == 0 
+      %h6.table_bids
+        Table Bids: 
+        - tb = @game.total_bids
+        - nc = @game.num_cards_per_player
+        - if tb < nc
+          Under
+        - elsif tb == nc
+          Even
+        - else
+          Over
+
+
     - if params[:debug]
-      %h5.debug_info
+      %h6.debug_info
         Seat#: #{index}
         Profile#: #{@indexes[index]}

@@ -81,7 +81,11 @@ class GamesController < ApplicationController
     end
       
     if @game.add_player(@_current_user, params[:username])
-      show
+      if request.xhr? # standard player usage
+        show 
+      else# for debug helper
+        game_redirect "Added player" 
+      end
     else
       render json: { message: 'Failed to join the game' }
     end
@@ -313,7 +317,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.new(game_params)
+    @game = Game.new
     @game.set_up(game_options)
     if @game.add_player(@_current_user, params[:username])
       game_redirect 'Game created. Share this URL with your friends.'
@@ -329,10 +333,6 @@ class GamesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:name, :state)
-    end
-
     def game_options
       params.permit(*t("options", locale: :en).keys).to_h
     end

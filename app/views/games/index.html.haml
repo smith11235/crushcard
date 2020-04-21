@@ -39,7 +39,7 @@
       - Game.order(created_at: :desc).limit(5).each do |game|
         %tr
           %td
-            - label = "#{game.name} (#{game.id})"
+            - label = "##{game.id}"
             = link_to(label, game, class: "btn btn-sm btn-success")
           %td= "#{distance_of_time_in_words(Time.now, game.created_at)} ago"
           %td= game.config[:players].size

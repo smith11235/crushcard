@@ -175,6 +175,10 @@ class Game < ApplicationRecord
     bid >= 0 && bid <= num_cards_per_player
   end
 
+  def total_bids
+    config[:bids].compact.sum 
+  end
+
   def invalid_dealer_bid?(user_id, bid)
     return false if config[:bids_total] == 'win'
 
@@ -183,7 +187,7 @@ class Game < ApplicationRecord
     is_dealer = player_index(user_id) == config[:dealer_index]
     return false unless is_dealer
 
-    bid_total = bid + config[:bids].compact.sum 
+    bid_total = bid + total_bids
     all_add_up = bid_total == num_cards_per_player
     all_add_up
   end
