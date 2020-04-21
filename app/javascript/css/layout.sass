@@ -1,17 +1,32 @@
 select 
   color: black
 
+.options_wrapper
+  margin: auto
+  .game_options
+    @media screen and (max-width: 425px)
+      h4
+        font-size: 20px
+      h5
+        font-size: 16px
+
 footer 
   padding: 50px 0
   padding-top: 200px
+  margin: auto
   p
     margin: 0
+  @media screen and (max-width: 425px)
+    font-size: 14px
+    max-width: 90%
 
 .navbar-custom 
   margin-bottom: 0
   border-bottom: 1px solid rgba(255,255,255,.3)
   text-transform: uppercase
   background-color: #000
+  .container
+    padding: 0
 
 
 .navbar-custom .navbar-brand 
@@ -66,9 +81,16 @@ footer
 
 .navbar-header
   padding: 0px
+  width: 99%
 
 .navbar-nav 
   float: right !important
+  h4
+    margin: 0 auto
+  @media screen and (max-width: 425px)
+    h4
+      font-size: 18px
+      margin-top: 10px
 
 @media screen and (min-width:768px) 
   .navbar-custom 
@@ -88,3 +110,111 @@ footer
   .navbar-header 
     float: none !important
 
+// Bootstrap stuff ===========
+
+
+/*!
+ * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body 
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  background-color: #000;
+  webkit-tap-highlight-color: rgba(255,255,255,.2);
+
+html
+  width: 100%
+  height: 100%
+
+
+h1,h2,h3,h4,h5,h6 
+  margin: 0 0 10px
+  text-transform: uppercase
+  font-weight: 700
+  letter-spacing: 1px
+
+@media screen and (max-width: 425px)
+  h3 
+    font-size: 22px
+  h4
+    font-size: 19px
+  h5
+    font-size: 16px
+  h6
+    font-size: 14px
+  h1,h2,h3,h4,h5,h6 
+    margin-bottom: 5px
+
+p 
+  margin: 0 0 25px
+  font-size: 18px
+  line-height: 1.5
+
+
+@media screen and (min-width: 768px) 
+  p 
+    margin: 0 0 35px
+    font-size: 20px
+    line-height: 1.6
+
+a 
+  //color: #42dca3
+  -webkit-transition: all .2s ease-in-out
+  -moz-transition: all .2s ease-in-out
+  transition: all .2s ease-in-out
+
+a 
+  &:hover, &:focus, &:visited 
+    text-decoration: none
+    //color: #42dca3
+
+input 
+  color: black
+
+.btn 
+  border-radius: 5px
+  text-transform: uppercase
+  font-weight: bold
+  -webkit-transition: all .3s ease-in-out
+  -moz-transition: all .3s ease-in-out
+  transition: all .3s ease-in-out
+  &:visited 
+    color: white
+
+::-moz-selection 
+  text-shadow: none
+  background: #000
+  background: rgba(0,0,0,.2)
+
+::selection 
+  text-shadow: none
+  background: #000 //#fcfcfc;
+  background: rgba(0,0,0,.2)
+
+@-webkit-keyframes pulse     
+  0% 
+    -webkit-transform: scale(1)
+    transform: scale(1)
+
+  50% 
+    -webkit-transform: scale(1.2)
+    transform: scale(1.2)
+
+  100% 
+    -webkit-transform: scale(1)
+    transform: scale(1)
+
+@-moz-keyframes pulse 
+  0% 
+    -moz-transform: scale(1)
+    transform: scale(1)
+  50% 
+    -moz-transform: scale(1.2)
+    transform: scale(1.2)
+  100% 
+    -moz-transform: scale(1)
+    transform: scale(1)

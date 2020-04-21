@@ -1,7 +1,7 @@
-
-//bootstrap_and_overrides.css.less
-
 @import "~bootstrap/scss/bootstrap";
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome';
+
 @import 'layout';
 @import 'new';
 @import 'games';

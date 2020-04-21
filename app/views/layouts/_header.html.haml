@@ -4,16 +4,18 @@
     .navbar-header
       - target = @game.present? ? root_path : "#page-top"
       %a.navbar-brand.page-scroll{href: target}
-        %i.fa.fa-play-circle
-        #{t('name').upcase}
-        - if in_game 
-          /= "- \"#{@game.name}\""
-          = " - Round ##{@game.config[:rounds_played] + 1}"
+        %h3
+          %i.fa.fa-play-circle
+          #{t('name').upcase}
+          - if in_game 
+            = "##{@game.id}"
+            /= "- \"#{@game.name}\""
+            /= " - Round ##{@game.config[:rounds_played] + 1}"
 
       - if in_game
         %ul.nav.navbar-nav.navbar-right
           %li
             = link_to "#", data: { toggle: "modal", target: "#rules-modal" } do
-              %h4{style: "margin: 0;"}
+              %h4
                 %i.fa.fa-book
                 Rules

@@ -6,22 +6,22 @@
 .player_card{class: classes}
   %h3.name
     - if show
-      "#{@names[index]}"
+      #{@names[index]}
       - if @indexes[index] == @game.config[:dealer_index]
         = image_tag 'cards-favicon.png', size: "25x25", style: "border: 1px white solid; background-color: white;"
     - else
       Player not present
   
   - if show 
-    %h5.score
+    %h6.score
       #{@total_scores[index]} points
       (#{@places[index]}#{ActiveSupport::Inflector.ordinal(@places[index])})
   
     - bid = @round_scores[index]
-    %h5.bid_hint{style: "color: #{bid.last}"}
+    %h6.bid_hint{style: "color: #{bid.last}"}
       = bid.first
  
     - if params[:debug]
-      %h6{style: "margin-bottom: 5px;"}
+      %h5.debug_info
         Seat#: #{index}
         Profile#: #{@indexes[index]}

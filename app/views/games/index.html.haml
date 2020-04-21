@@ -10,38 +10,41 @@
       .row
         .col-md-6.text-center.actions
           .row
-            .col-sm-6.text-center
-              = link_to new_game_path, class: "btn btn-lg btn-success" do
+            .col-sm-6.centered
+              = link_to new_game_path, class: "btn btn-md btn-success" do
                 %i.fa.fa-gamepad
                 Create game
-            .col-sm-6.text-center
-              = link_to "#games", class: "btn btn-success btn-lg page-scroll" do
+            .col-sm-6.centered
+              = link_to "#games", class: "btn btn-success btn-md page-scroll" do
                 %i.fa.fa-users
                 Join game
           .row
-            .col-xs-12.text-center
-              = link_to "#rules", class: "btn btn-lg page-scroll btn-success" do
+            .col-xs-12.centered
+              = link_to "#rules", class: "btn btn-md page-scroll btn-success" do
                 %i.fa.fa-book
                 Learn rules
 
 %section#games.container.content-section.text-center
-  %h1 Games in Progress
+  %h1{style: "white-space: nowrap;"} 
+    Recent 
+    .d-none.d-sm-inline
+      Games 
   %table#game_list.table
     %thead
       %tr
-        %th Id
-        %th Name
+        %th Game
         %th Created
         %th Players
     %tbody
       - Game.order(created_at: :desc).limit(5).each do |game|
         %tr
-          %td= link_to(game.id, game, class: "btn btn-lg btn-success")
-          %td= game.name
+          %td
+            - label = "#{game.name} (#{game.id})"
+            = link_to(label, game, class: "btn btn-sm btn-success")
           %td= "#{distance_of_time_in_words(Time.now, game.created_at)} ago"
           %td= game.config[:players].size
   %br
-  = link_to new_game_path, class: "btn btn-lg btn-success" do
+  = link_to new_game_path, class: "btn btn-md btn-success" do
     %i.fa.fa-gamepad
     Create new game
   %br

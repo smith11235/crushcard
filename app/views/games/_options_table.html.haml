@@ -1,16 +1,16 @@
-%table.game_options.text-center{style: "margin: 0 auto;"}
+%table.game_options
   %thead
     %tr
-      %th{style: "padding-right: 10px;"}
+      %th
         %h4{style: 'margin-bottom: 15px;'} Special Options
-      %th{style: "padding-left: 10px;"}
+      %th
         %h4{style: 'margin-bottom: 15px;'} Selected
   %tbody
     - t("options", locale: :en).each do |k, c|
       %tr
-        %td{style: "padding-right: 10px;"}
+        %td
           %h5{style: "margin-bottom: 15px;"}= c[:label]
-        %td{style: "padding-left: 10px;"}
+        %td
           - v = @game.persisted? ? @game.config[k] : t("options.#{k}.default") 
           - opts = c[:select]
           - if form

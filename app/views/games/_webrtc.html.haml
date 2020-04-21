@@ -1,5 +1,5 @@
 - show_video = params[:webrtc] && @is_playing
-.webrtc{class: (show_video ? nil : "hidden"), data: {index: @indexes[0]}}
+.webrtc{class: (show_video ? nil : "d-none"), data: {index: @indexes[0]}}
   / Examples: https://webrtc.github.io/samples/
   / Guide: http://www.html5rocks.com/en/tutorials/webrtc/basics/
   %h4{style: "margin-bottom: 20px;"} Videochat

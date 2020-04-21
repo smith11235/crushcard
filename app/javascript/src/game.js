@@ -24,11 +24,11 @@
   window.show_game_message = function(message){
     var msg = $('#game-wrapper .message');
     msg.find(".text").html(message);
-    msg.removeClass("hidden");
+    msg.removeClass("d-none");
     msg.find("a").focus();
     msg.one("click", "a", function(e) {
       e.preventDefault();
-      $('#game-wrapper .message').addClass("hidden");
+      $('#game-wrapper .message').addClass("d-none");
       return false;
     });
   }
@@ -125,7 +125,7 @@
       jg = $(document).find(".join_game");
       username = jg.find("#username").val();
       if (username && username.length >= 0) {
-        jg.addClass("hidden");
+        jg.addClass("d-none");
         path = jg.data("url");
         $.ajax(path, {
           data: {

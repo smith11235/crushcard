@@ -1,16 +1,15 @@
-.container{style: "padding-top: 20%;"}
+.container
   .row
-    .col-xs-12.text-center
-      %h1 Create a New Game
-      .new_game
-        = form_for(@game) do |f|
-          .row
-            .col-sm-4
-              = f.text_field :name, class: "input-lg", placeholder: "Game Name", required: true
-            .col-sm-4
-              = text_field_tag :username, nil, class: "input-lg", placeholder: "Player Name", required: true
-            .col-sm-4
-              = f.submit class: "btn btn-lg btn-success"
-          .row{style: "margin-top: 30px;"}
-            .col-xs-12
-              = render 'options_table', form: true
+    .col-xs-12.text-center.new_game_wrapper
+      %h2 Create a New Game
+      = form_for(@game) do |f|
+        .row
+          .col-sm-4
+            = f.text_field :name, class: "input-lg", placeholder: "Game Name", required: true
+          .col-sm-4
+            = text_field_tag :username, nil, class: "input-lg", placeholder: "Player Name", required: true
+          .col-sm-4
+            = f.submit class: "btn btn-lg btn-success"
+        .row{style: "margin-top: 30px;"}
+          .col-xs-12.options_wrapper
+            = render 'options_table', form: true

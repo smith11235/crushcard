@@ -7,27 +7,24 @@
 
   &.waiting_for
     border: 3px solid white 
-  .name
-    margin-bottom: 10px
-  .score
-    margin-bottom: 10px
+
+  .score, .bid_hint
+    margin-bottom: 5px
   .bid_hint
     display: none
-    margin-bottom: 5px
 
 #game
   .board-wrapper-small
     .player_card
       padding: 5px
       width: auto
+      margin: auto
       min-width: 200px
-      max-width: 240px
-      .name
-        font-size: 20px
-      .name, .bid_hint, .score
-        margin-bottom: 5px
+      max-width: 220px
       .score, .bid_hint
         display: none
+      .score, .bid_hint, .debug_info
+        font-weight: normal
 
   &.show_hints
     .player_card 

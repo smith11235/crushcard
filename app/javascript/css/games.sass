@@ -14,28 +14,20 @@
     margin-left: auto
     margin-right: auto
 
-.controls
-  .bid_form .btn
-    border-top-left-radius: 0px !important
-    border-bottom-left-radius: 0px !important
-  padding-top: 20px
-
-  @media screen and (min-width: 426px)
-    padding: 0px
-    position: absolute
-    top: 15px
-    right: -40px
-
 #game-wrapper
   text-align: center
+  margin: auto
+
+.board_display
   margin: auto
 
 .board-wrapper-large
   position: relative
   width: 300px
   height: 300px
-  margin: 0 auto
-  margin-top: 80px
+  margin: 80px auto
+  //padding-left: 250px
+  //padding-right: 250px
   .board, .message
     width: 300px
     height: 300px
@@ -97,15 +89,14 @@
     background: white
 
 .trump_suit 
-  @media screen and (min-width: 426px)
-    position: absolute
-    left: -80px
-    top: -5px
+  float: right
+  //@media screen and (min-width: 426px)
+  //  position: absolute
+  //  left: -80px
+  //  top: -5px
 
   .trump_label
-    margin-bottom: 10px
     @media screen and (max-width: 425px)
-      margin-bottom: 5px
       .large_label
         display: none
   .trump_card
@@ -117,10 +108,42 @@
       float: right
 
 .info_actions
-  height: 130px
+  position: relative
+  height: 140px
+  margin: auto
+  text-align: center
+  .left_actions
+    margin: auto
+  .right_actions
+    margin: auto
+
+  @media screen and (min-width: 426px)
+    margin-top: 25px
+    .left_actions
+      margin-left: 25px
+    .right_actions
+      margin-right: 25px
+  @media screen and (min-width: 769px)
+    .left_actions
+      margin-left: 50px
+    .right_actions
+      margin-right: 50px
+    
+
   @media screen and (max-width: 425px)
-    height: auto
+    .left_actions
+      position: absolute
+      left: 0px
+      padding-top: 20px
+    .right_actions
+      position: absolute
+      right: 0px
    
+  .controls
+    .bid_form .btn
+      border-top-left-radius: 0px !important
+      border-bottom-left-radius: 0px !important
+  
 
 .pregame_notice
   border: 1px solid white
@@ -146,22 +169,19 @@
       border-color: red
 
     .pregame_notice
-      padding: 5px
       border: none
-      h4
-        font-size: 13px
-        font-weight: normal
-
-.show
-  padding-top: 120px
+      padding: 5px
 
 .board-wrapper-small
   display: none
 
 @media screen and (max-width: 425px)
-  .show
-    padding-top: 70px
   .board-wrapper-large
     display: none
   .board-wrapper-small
     display: block 
+
+.debug_container
+  margin: auto
+  .col
+    margin: auto

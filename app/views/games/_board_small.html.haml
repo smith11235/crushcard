@@ -3,9 +3,9 @@
     %thead
       %tr
         %th 
-          %h4 Player
+          %h3 Player
         %th 
-          %h4 Card
+          %h3 Card
     %tbody
       / Note: 0 spot is You, need to render You last for mobile display
       - last_index = num_players - 1
@@ -18,7 +18,7 @@
             .card_column
               = render 'card_on_table', index: use_index
 
-  .message.hidden
+  .message.d-none
     .text
     .ok
       = link_to "Ok", "#", class: "btn btn-success btn-lg"

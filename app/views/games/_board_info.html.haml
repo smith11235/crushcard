@@ -5,49 +5,49 @@
 - game_info = {id: @game.id, url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s }
 
 #game{class: extra_class.compact, data: game_info}
-  - if @winners.present?
-    .winner
-      %h2{style: "margin-bottom: 10px;"}
-        Game Over:
-        Winner:
-        = "\"#{@winners.join(', ')}\""
-      = link_to "New Game", new_game_path, class: "btn btn-lg btn-success"
+  .container.game_container
+    - if @winners.present?
+      .row.winner
+        %h2
+          Game Over:
+          Winner:
+          = "\"#{@winners.join(', ')}\""
+        = link_to "New Game", new_game_path, class: "btn btn-lg btn-success"
 
-  .row
-    .col-xs-12
-      = render 'board_large'
-      = render 'board_small'
-
-      .row.info_actions
-        .col-xs-3.controls_wrapper{style: "padding-right: 0px; position: relative;"}
-          = render "controls"
-        .col-xs-6
-        .col-xs-3{style: "position: relative;"}
-          - if @dealt
-            .trump_suit
-              %h4.trump_label{style: "white-space: nowrap;"}
-                - if @game.ignore_trump?
-                  No Trump
-                - else
-                  Trump
-                  %span.large_label
-                    Suit
-              .trump_card
-                = render 'playing_card', id: :trump, card: @game.config[:trump_card]
-          - elsif !@game_started
-            .pregame_notice
-              %h4{style: "margin-bottom: 0px;"}
-                - if @enough_players
-                  - who_starts = @can_start_game ? 'You' : 'Dealer'
-                  can Deal/Start.
-                - else
-                  Need more players.
-                  %br
-                  (#{Game::MIN_PLAYERS} to #{@game.max_players})
-
-      - if @is_playing
-        .row
-          .col-xs-12
-            = render "hand"
-
-  = render "debug"
+    .row
+      .col-xs-12.board_display
+        = render 'board_large'
+        = render 'board_small'
+  
+    .row.info_actions
+      .col-xs-6.left_actions.pull-left
+        = render "controls"
+      .col-xs-6.right_actions.pull-right
+        - if @dealt
+          .trump_suit
+            %h3.trump_label{style: "white-space: nowrap;"}
+              - if @game.ignore_trump?
+                No Trump
+              - else
+                Trump
+                %span.large_label
+                  Suit
+            .trump_card
+              = render 'playing_card', id: :trump, card: @game.config[:trump_card]
+        - elsif !@game_started
+          .pregame_notice
+            %h3
+              - if @enough_players
+                - who_starts = @can_start_game ? 'You' : 'Dealer'
+                can Deal/Start.
+              - else
+                Need more players.
+                %br
+                (#{Game::MIN_PLAYERS} to #{@game.max_players})
+  
+    - if @is_playing
+      .row
+        .col.col_hand
+          = render "hand"
+  
+    = render "debug"

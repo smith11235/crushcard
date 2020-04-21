@@ -1,12 +1,9 @@
 = render 'webrtc'
 
-.container.show
-  .row
-    .col-xs-12
-      = render 'join_game'
+= render 'join_game'
 
-      #game-wrapper
-        = render "board_info"
+#game-wrapper
+  = render "board_info"
 
 = render 'game_rules'
 .youre_up_bell{data: {src: "/hotel-call-bell.mp3"}}

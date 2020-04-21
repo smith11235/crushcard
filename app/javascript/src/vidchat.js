@@ -44,7 +44,7 @@ Vidchat = function(){
         send_message("start_call", null);
         started = true;
         $(document).trigger("poll_for_update"); // override polling process
-        startButton.addClass("hidden");
+        startButton.addClass("d-none");
       });
    
   })

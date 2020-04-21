@@ -1,11 +1,10 @@
 .controls
   - if @waiting_on !~ /game\sto\sstart/i # prenotice displayed elsewehre
     .waiting_notice
-      %h4{style: "margin-bottom: 10px;"}
+      %h3{style: "margin-bottom: 10px;"}
         %i
           - name = @waiting_on_index == @indexes[0] ? "You" : @game.config[:names][@waiting_on_index] 
-          "#{name}"
-          %br
+          #{name}
           to #{@waiting_on}
   - if @can_start_game && !@dealt
     = link_to 'Start', "#", class: "start_game btn btn-lg btn-success", data: {url: start_game_path} 
@@ -20,7 +19,7 @@
         - max = @cards.size
         = number_field_tag("bid", 0, min: 0, max: max, class: "form-control input-lg")
         %span.input-group-btn
-          = link_to("Bid", "#", class: "btn btn-lg btn-success", data: {disable: true, disable_with: "Bidding..."})
+          = link_to("Bid", "#", class: "btn btn-success", data: {disable: true, disable_with: "Bidding..."})
       /:javascript
       /  var bid_title = $("#bid-title");
       /  setInterval(function(){
@@ -31,7 +30,7 @@
   / TODO: this is ok, but gets cleared by board updates too fast - maybe just remove it?
   - notice_message = @notice || notice 
   - if notice_message
-    %h4
+    %h5
       Notice: 
       %br
       = "\"#{notice_message}\""
