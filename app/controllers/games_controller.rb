@@ -81,10 +81,10 @@ class GamesController < ApplicationController
     end
       
     if @game.add_player(@_current_user, params[:username])
-      if request.xhr? # standard player usage
-        show 
-      else# for debug helper
+      if params[:force] == 'true' # for debug helper
         game_redirect "Added player" 
+      else
+        show 
       end
     else
       render json: { message: 'Failed to join the game' }
