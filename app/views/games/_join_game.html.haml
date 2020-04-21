@@ -3,5 +3,5 @@
     #username-input.input-group
       = text_field_tag(:username, nil, class: "form-control input-lg", placeholder: "Player name")
       %span.input-group-btn
-        = button_tag("Join game", type: "submit", class: "btn btn-lg btn-primary", data: {disable: true, disable_with: "Joining..."})
+        = button_tag("Join game", type: "submit", class: "btn btn-success", data: {disable: true, disable_with: "Joining..."})
     /= button_to 'Add Computer Player', games_add_cpu_player_path, method: :post, params: { id: params[:id] }, class: 'btn btn-lg btn-primary'

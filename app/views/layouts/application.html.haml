@@ -26,7 +26,9 @@
     = csrf_meta_tags
 
     = render 'layouts/analytics'
+    = stylesheet_pack_tag 'application'
     = javascript_pack_tag 'application' 
+
 
   %body#page-top{data: {spy: :scroll, target: ".navbar-fixed-top"}}
     = render 'layouts/header'
