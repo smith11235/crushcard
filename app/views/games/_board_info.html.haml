@@ -3,6 +3,8 @@
 - extra_class << (@game.show_hints? && !@game.ignore_trump? ? :trump_flag : nil)
 - extra_class << "bidding" if @dealt && !@done_bidding
 - extra_class << "game-over" if @winners.present?
+- extra_class << "show_trump_shame" if @game.config[:show_trump_shame] == 'yes'
+
 - game_info = {id: @game.id, url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s }
 #game{class: extra_class.compact, data: game_info}
   .container.game_container
@@ -36,7 +38,7 @@
               = render 'playing_card', id: :trump, card: @game.config[:trump_card]
         - elsif !@game_started
           .pregame_notice
-            %h3
+            %h5
               - if @enough_players
                 - who_starts = @can_start_game ? 'You' : 'Dealer'
                 can Deal/Start.

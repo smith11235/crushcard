@@ -12,5 +12,6 @@ en_tish:
     hints: 
       default: 'yes'
     first_to_play:
-      label: "First to play" 
       default: "left"
+    show_trump_shame:
+      default: 'yes'

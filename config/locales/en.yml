@@ -89,3 +89,12 @@ en:
           - 'no_trump'
         - - "Still Trump"
           - 'trump'
+    show_trump_shame:
+      label: "Trump Leads"
+      default: 'no'
+      select:
+        - - "Valid Strategy"
+          - 'no'
+        - - "Pisses Everyone Off"
+          - 'yes'
+

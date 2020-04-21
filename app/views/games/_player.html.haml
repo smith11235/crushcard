@@ -3,7 +3,11 @@
 - classes = ["player-#{index}"]
 - classes << :you if you
 - classes << :waiting_for if show && @indexes[index] == @waiting_on_index && @enough_players
+- classes << :led_trump if @game.last_to_lead_with_trump?(@indexes[index]) 
 .player_card{class: classes}
+  .trump_shame
+    = image_pack_tag 'led-trump.png'
+  
   %h3.name
     - if show
       #{@names[index]}
@@ -20,7 +24,7 @@
     - bid = @round_scores[index]
     %h6.bid_hint{style: "color: #{bid.last}"}
       = bid.first
-    - if index == 0 
+    - if show && index == 0 
       %h6.table_bids
         Table Bids: 
         - tb = @game.total_bids

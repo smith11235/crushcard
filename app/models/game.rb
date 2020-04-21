@@ -34,6 +34,7 @@ class Game < ApplicationRecord
       player_hands: [],
       winner_index: nil,
       winners: [],
+      last_to_lead_with_trump: nil
     }
     options.each do |k, v|
       state.merge! k.to_sym => v
@@ -176,7 +177,7 @@ class Game < ApplicationRecord
   end
 
   def total_bids
-    config[:bids].compact.sum 
+    (config[:bids] || []).compact.sum 
   end
 
   def invalid_dealer_bid?(user_id, bid)
@@ -194,7 +195,6 @@ class Game < ApplicationRecord
 
   def set_first_to_play_hand
     left_of_dealer = next_player_index(config[:dealer_index])
-
     next_up = if config[:first_to_play] == 'highest'
                 max_bid = config[:bids].max
                 bidder = nil
@@ -209,6 +209,10 @@ class Game < ApplicationRecord
                 left_of_dealer
               end
     add_waiting_info(next_up, "Play")
+  end
+  
+  def last_to_lead_with_trump?(index)
+    config[:last_to_lead_with_trump] == index
   end
 
   # player either bids or plays a card if it's their turn
@@ -243,7 +247,12 @@ class Game < ApplicationRecord
       return false unless config[:player_hands][current_player_index].any? { |player_card| player_card == card }
 
       # ensure that the card is actually playable
-      config[:first_suit_played] ||= card.suit
+      if config[:first_suit_played].nil?
+        config[:first_suit_played] = card.suit
+        if config[:first_suit_played] == config[:trump_card].suit && !ignore_trump? 
+          config[:last_to_lead_with_trump] = current_player_index
+        end
+      end
       playable_cards = get_playable_cards(config[:player_hands][current_player_index])
       # TODO: add a message here?
       return false unless playable_cards.include? card
