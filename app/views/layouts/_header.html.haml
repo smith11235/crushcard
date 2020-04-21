@@ -1,5 +1,5 @@
 - in_game = @game.present? && @game.persisted?
-%nav.navbar.navbar-custom.navbar-fixed-top{role: :navigation}
+%nav.navbar.navbar-custom.fixed-top{role: :navigation}
   .container
     .navbar-header
       - target = @game.present? ? root_path : "#page-top"

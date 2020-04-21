@@ -15,9 +15,12 @@
 require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+//import 'jquery_ujs'
 import 'jquery'
 import 'popper.js'
-import 'bootstrap'
+//import 'bootstrap'
+import 'bootstrap/dist/js/bootstrap';
+
 
 //import Rails from "@rails/ujs"
 
@@ -33,7 +36,7 @@ require('../js/game.js') //.coffee for source
 // channels
 //Rails.start()
 
-import 'css/application'
+import '../css/application'
 
 $(function() {
   var game = $("#game");

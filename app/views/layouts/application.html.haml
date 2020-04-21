@@ -26,14 +26,14 @@
     = csrf_meta_tags
 
     = render 'layouts/analytics'
-    = stylesheet_pack_tag 'application'
+    = stylesheet_pack_tag 'application', media: :all
     = javascript_pack_tag 'application' 
 
 
-  %body#page-top{data: {spy: :scroll, target: ".navbar-fixed-top"}}
+  %body#page-top{data: {spy: :scroll, target: ".fixed-top"}}
     = render 'layouts/header'
                 
-    .body_content
+    .body_content{style: "padding-top: 75px"}
       = yield
 
     = render 'layouts/footer'
