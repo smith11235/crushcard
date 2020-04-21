@@ -15,17 +15,25 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-require("@rails/ujs").start()
-require("channels")
+import 'jquery'
+import 'popper.js'
+import 'bootstrap'
+
+//import Rails from "@rails/ujs"
+
 require("jquery-ui-dist/jquery-ui")
-//require('bootstrap')
 require('../src/grayscale.js') // homepage ui helper
 require('../src/draw_card.js')
 require('../src/card_handler.js')
 require('../src/game.js') //.coffee for source
 //import '../src/vidchat.js' // TODO
+
+//require("@rails/ujs").start()
 // activestorage
 // channels
+//Rails.start()
+
+import 'css/application'
 
 $(function() {
   var game = $("#game");

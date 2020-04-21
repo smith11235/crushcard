@@ -1,2 +1,13 @@
-@import "~bootstrap/scss/bootstrap.scss"
 
+//bootstrap_and_overrides.css.less
+
+@import "~bootstrap/scss/bootstrap";
+@import 'layout';
+@import 'new';
+@import 'games';
+@import 'board_large';
+@import 'board_small';
+@import 'hand';
+@import 'index';
+@import 'player';
+@import 'webrtc';
