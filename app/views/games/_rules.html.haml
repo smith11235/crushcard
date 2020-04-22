@@ -1,90 +1,123 @@
 .row
   .col-lg-8.col-lg-offset-2{style: "margin: auto;"}
-    %h1 How to Play 
+    %h1 How to Play
 
-    %h2 Setup
+    %h5 Players
     %p 
-      #{t(:name)} is a card game for 3-5 players. 
-      Standard card deck, no jokers. 
-      The first dealer is determined by each player drawing 1 card, highest card deals first.
-
-    %h4 Rounds of Play (aka: Hands)
-    %p
-      The game consists of 10 hands. 
-      Default gameplay starts the first hand with 10 cards. 
-      Each subsequent hand has 1 less card, until the last round which has just 1 card.
-      The "Dealer" passes to the next person, clockwise. 
-      At the end of the game, the player with the highest points wins.
-
-    %h4 Dealing
-    %p 
-      %b Player Hands:
-      Each player is dealt cards to their hands. 10 cards, or, X cards, as appropriate for the round the game is on.
-    %p
-      %b Trump Card:
-      The top card of the deck is then flipped, which provides the "Trump Suit" for the hand. 
-      When playing, trump suit cards beat non-trump suit cards.
-
-    %p
-      %b "No Trump" Rule: 
-      If an "Ace of Trump" is flipped, the round will be played without a trump suit.
-      Trump suit cards will NOT beat non-trump cards.
-
-    %h2 Playing a Hand
-    %h4 Tricks
-    %p 
-      Each "hand" is played as a number of "tricks" equal to the number of cards in your hand. 
-      For each "trick" you play one card. 
-      The hand is over when all cards have been played.
-    %h4 Lead Suit
-    %p
-      The first person to play a card in a trick, sets the "Lead Suit". 
-      Then play proceeds clockwise. 
-      If you have a any cards of the "Lead Suit", you must play one of them. 
-      If not, you can play any card.
-    %h4 Winning a Trick
-    %p 
-      The highest card played in the "Lead Suit" wins the trick. 
-      The winner of the trick gets to play first in the following trick.
-      If a "Trump Suit" card is played, then the highest trump card wins, overriding the "Lead Suit". 
-    %p
+      Best for 3-5 players. 
       %i
-        AKA: a King of Diamonds will lose to a 2 of trump 
+        (Can be played with up to 10)
 
-    %h4
-      Bidding & Scoring
-    %p
-      In the simplest sense, each "trick" you take (win), is 1 point. 
-      Highest point total wins the game. However, winners aren't concerned with simply taking tricks, but rather "making your bid". 
-    %p
-      %b Bidding:
-      Each player has to make a bid at the start of each hand. 
-      The bid is for how many tricks they plan to win. 
-      A bid can be "0" up to all the cards in the hand (ex: 10).
-      Bids are made starting with the player to the left of the dealer, and the dealer last.
-    %p
+    %h5 Deck
+    %p 
+      Standard 52 card deck, no jokers.
 
-      %b Making your Bid: 
-      This is the real way to win. When you make your bid, you get +10 points in addition to the tricks you took.
-      %ul.scoring_examples
-        %li{style: "margin-bottom: 15px;"}
-          Bid X tricks, take X tricks, you get X+10 points.
-          %br
-          %i EX: bid 3, take 3, you get 13 points. 
-        %li{style: "margin-bottom: 15px;"}
-          Bid X, take X + 1 tricks, you get X + 1 points
-          %br
-          %i EX: bid 3, take 4, you get 4 points.
-        %li
-          Bid X, take X - 1 tricks, you loose the difference. 
-          %br
-          %i EX: bid 3, take 2, you loose 1 point.
+    %h5 First Dealer
     %p
-      %b "Someone Must Loose":
-      When it is the dealers turn to bid, the dealer must bid so the total bids do NOT equal the total cards.
+      Each player draws one card each, highest card deals first.
+      Dealing passes to the left after each "hand".
+
+
+    %h5 Rounds of Play (aka: Hands)
+    %p
+      The "game" is made up of 10 "hands" typically.
+    %p 
+      Games can be played from 1 card to 10, from 10 cards to 1, or both up and down. 
+      If playing with more than 5 players, the maximum hand size is reduced. 
+      For larger games playing "up and down" is recommended.
+      %br
+      %i
+        (ex: 10 people, play from 1 card to 5 cards and back to 1.)
+
+    %h5 Winning
+    %p
+      The player with the highest points in the end wins.
+
+    %h5 Tricks
+    %p 
+      A "Trick" is a single card played by each player. A "Hand" has as many "tricks" as their are cards in the hand. The hand is over once all cards have been played.
+
+    %h5 Lead Suit
+    %p
+      The first card played each trick sets the "Lead Suit". Play proceeds clockwise. Others must play the "Lead Suit" if they have it in their hand. Otherwise they can play any card.
+
+    %h5 Trump Suit
+    %p
+      After dealing out the hands, the dealer flips the top card on the deck. This card determines the "Trump Suit". 
+
+    %h5 Winning a Trick
+    %p
+      The highest card played in the lead suit wins. 
+      If a trump suit card was played, then the highest trump card wins instead of the lead suit. 
+      %br
+      (AKA: a 2 of trump beats a king of diamonds)
+    %p
+      The winner of the trick plays first for the next trick.
+
+    %h5 Scoring
+    %p
+      In the simplest sense, each trick you win is worth 1 point. 
+      Highest point total wins the game. 
+      Winners however are not concerned with simply taking tricks, but rather "making your bid". 
+
+    %h5 Bidding
+    %p
+      After the dealer has dealt the hands and flipped the trump card, players make bids.
+      Starting to the left of the dealer, each player makes a bid for how many tricks they will win. 
+      From 0 up to all the cards in the hand.
+
+    %h5 Making Your Bid
+    %p
+      The real way to win. When you make your bid, you get +10 points in addition to the tricks you took. At the end of each hand, tricks taken are compared to bids to determine scoring.
+
+
+    %ul.scoring_examples
+      %li{style: "margin-bottom: 15px;"}
+        Bid X tricks, take X tricks, you get X+10 points.
+        %br
+        %i EX: bid 3, take 3, you get 13 points. 
+      %li{style: "margin-bottom: 15px;"}
+        Bid X, take X + 1 tricks, you get X + 1 points
+        %br
+        %i EX: bid 3, take 4, you get 4 points.
+      %li
+        Bid X, take X - 1 tricks, you loose the difference. 
+        %br
+        %i EX: bid 3, take 2, you loose 1 point.
+    
+    %hr
+
+    %h2 Optional Rules
+    %h5 Show Hints
+    %p
+      Enabled for easier learning of the game. Play without for a more lifelike experience.
+
+    %h5 Max Players
+    %p
+      Allow more than 5 people in the game. If so, we suggest playing "Up and Down".
+
+    %h5 Rounds Direction
+    %p
+      Playing up is "easier", "down" is harder.
+      Playing "up and down" is best for larger than 5 people.
+      
+    %h5 Underbid
+    %p
+      If you bid X, but get fewer tricks, do you lose the difference, or get 0 points (easier).
+
+    %h5 "No Trump" Rule
+    %p
+      If an "Ace of Trump" is flipped by the dealer, the round will be played without a trump suit. Trump suit cards will NOT beat lead suit cards.
+
+    %h5 Bidding: Someone Must Lose
+    %p
+      When it is the dealers turn to bid, the dealer must bid so the total bids do NOT equal the total cards available.
       If the other players have bid for 8 out of 10 cards in a hand, the dealer can bid 1 or 3, but not 2.
-    %h4 Play the first trick
+
+    %h5 Who Plays First In a Hand
     %p
-      After the bidding is complete, the highest bidder (or first to bid it), plays first. 
-      Tricks are then played until everyones hand is empty. 
-      With the winner of each trick starting the next one.
+      "Left of Dealer" or else "Highest Bidder" (first to bid it for a tie).
+
+    %h5 Trump Leads
+    %p
+      In the "Quaker Family Friendly Rules" it is considered an irritating faux pas to lead a trick with a trump card.

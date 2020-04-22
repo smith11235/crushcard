@@ -7,22 +7,21 @@
           A card game.
           %br
           %i Crush your friends anytime, anywhere.
-      .row
-        .col-md-6.text-center.actions
-          .row
-            .col-sm-6.centered
-              = link_to new_game_path, class: "btn btn-md btn-success" do
-                %i.fa.fa-gamepad
-                Create game
-            .col-sm-6.centered
-              = link_to "#games", class: "btn btn-success btn-md page-scroll" do
-                %i.fa.fa-users
-                Join game
-          .row
-            .col-xs-12.centered
-              = link_to "#rules", class: "btn btn-md page-scroll btn-success" do
-                %i.fa.fa-book
-                Learn rules
+      .actions
+        .row
+          .col-sm-6.centered
+            = link_to new_game_path, class: "btn btn-md btn-success" do
+              %i.fa.fa-gamepad
+              Create game
+          .col-sm-6.centered
+            = link_to "#games", class: "btn btn-success btn-md page-scroll" do
+              %i.fa.fa-users
+              Join game
+        .row
+          .col.centered
+            = link_to "#rules", class: "btn btn-md page-scroll btn-success" do
+              %i.fa.fa-book
+              Learn rules
 
 %section#games.container.content-section.text-center
   %h1{style: "white-space: nowrap;"} 

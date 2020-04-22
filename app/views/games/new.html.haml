@@ -11,4 +11,8 @@
             = f.submit class: "btn btn-lg btn-success"
         .row{style: "margin-top: 30px;"}
           .col-xs-12.options_wrapper
+            - if I18n.locale == :en_tish
+              %p 
+                %i Default rules are more friendly for beginners
+
             = render 'options_table', form: true
