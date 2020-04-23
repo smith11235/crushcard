@@ -218,6 +218,10 @@ class Game < ApplicationRecord
     config[:last_to_lead_with_trump] == index
   end
 
+  def card_in_player_hand?(user_index, card)
+    config[:player_hands][user_index].any? { |player_card| player_card == card }
+  end
+
   # player either bids or plays a card if it's their turn
   def player_action user_id, user_input=nil
     return false unless player_up?(user_id)
@@ -247,7 +251,7 @@ class Game < ApplicationRecord
       card = user_input
       
       # ensure that the card is in their inventory
-      return false unless config[:player_hands][current_player_index].any? { |player_card| player_card == card }
+      return false unless card_in_player_hand?(current_player_index, card)
 
       # ensure that the card is actually playable
       if config[:first_suit_played].nil?

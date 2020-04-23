@@ -7,7 +7,7 @@
 
 - game_info = {id: @game.id, url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s }
 #game{class: extra_class.compact, data: game_info}
-  .container.game_container
+  .container-md.game_container
     - if @winners.present?
       .row.winner
         .col{style: "text-align: center; margin: auto;"}
@@ -40,12 +40,12 @@
               = render 'playing_card', id: :trump, card: @game.config[:trump_card]
         - elsif !@game_started
           .pregame_notice
-            %h5
+            %h6{style: "max-width: 115px;"}
               - if @enough_players
                 - who_starts = @can_start_game ? 'You' : 'Dealer'
-                can Deal/Start.
+                can Deal/Start
               - else
-                Need more players.
+                Need more players
                 %br
                 (#{Game::MIN_PLAYERS} to #{@game.max_players})
   
