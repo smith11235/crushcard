@@ -25,6 +25,9 @@ footer
   margin-bottom: 0
   border-bottom: 1px solid rgba(255,255,255,.3)
   text-transform: uppercase
+  -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out
+  -moz-transition: background .5s ease-in-out,padding .5s ease-in-out
+  transition: background .5s ease-in-out,padding .5s ease-in-out
 
   .container
     padding: 0
@@ -78,13 +81,16 @@ footer
   @media screen and (max-width: 425px)
     h4
       font-size: 18px
-      margin-top: 10px
+      margin-top: 9px
 
 .navbar.fixed
   padding-top: 5px
   padding-bottom: 0px
   border-bottom: 1px solid rgba(255,255,255,.3)
   background: #000
+  .navbar-nav
+    h4
+      margin-top: 5px
 
 @media screen and (min-width: 426px) 
   .navbar-custom 
@@ -92,9 +98,6 @@ footer
     border-bottom: 0
     letter-spacing: 1px
     background: 0 0
-    -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out
-    -moz-transition: background .5s ease-in-out,padding .5s ease-in-out
-    transition: background .5s ease-in-out,padding .5s ease-in-out
 
   .navbar-header 
     float: none !important

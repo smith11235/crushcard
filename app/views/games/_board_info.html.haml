@@ -10,11 +10,13 @@
   .container.game_container
     - if @winners.present?
       .row.winner
-        %h2
-          Game Over:
-          Winner:
-          = "\"#{@winners.join(', ')}\""
-        = link_to "New Game", new_game_path, class: "btn btn-lg btn-success"
+        .col{style: "text-align: center; margin: auto;"}
+          %h2
+            Game Over!
+            %br
+            Winner:
+            = "\"#{@winners.join(', ')}\""
+          = link_to "Start New Game", new_game_path, class: "btn btn-lg btn-success"
 
     .row
       .col-xs-12.board_display
