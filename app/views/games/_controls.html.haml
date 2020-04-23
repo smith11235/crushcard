@@ -1,11 +1,12 @@
 .controls
   - if @waiting_on !~ /game\sto\sstart/i # prenotice displayed elsewehre
     .waiting_notice
-      %h3{style: "margin-bottom: 10px;"}
+      %h5{style: "max-width: 140px; margin-bottom: 10px;"}
         %i
           - name = @waiting_on_index == @indexes[0] ? "You" : display_name(@game.config[:names][@waiting_on_index])
-          #{name}:
-          #{@waiting_on}
+          #{name}
+          %br
+          to #{@waiting_on}
   - if @can_start_game && !@dealt
     = link_to 'Start', "#", class: "start_game btn btn-lg btn-success", data: {url: start_game_path} 
   - if @waiting_on_you && @game.config[:waiting_on_reason] == "Clear" 
@@ -30,7 +31,7 @@
   / TODO: this is ok, but gets cleared by board updates too fast - maybe just remove it?
   - notice_message = @notice || notice 
   - if notice_message
-    %h5
+    %h6
       Notice: 
       %br
       = "\"#{notice_message}\""
