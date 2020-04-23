@@ -1,11 +1,4 @@
 %table.game_options
-  %thead{class: (form ? nil : "d-none")}
-    %tr
-      %th
-        %h5{style: 'margin-bottom: 15px;'} 
-          Options
-      %th
-        %h5{style: 'margin-bottom: 15px;'} Selected
   %tbody
     - t("options", locale: :en).each do |k, c|
       %tr

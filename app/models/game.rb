@@ -54,7 +54,10 @@ class Game < ApplicationRecord
   end
 
   def add_player(user_id, user_name)
+    user_name = user_name.strip
     if user_id.nil?
+      return false
+    elsif user_name.blank?
       return false
     elsif already_started?
       return false

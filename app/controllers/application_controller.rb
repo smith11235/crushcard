@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    locale = if lp = params[:locale]
+    locale = if lp = params[:rules]
                lp.include?('crush') ? :en : :en_tish
              else
                request.domain.to_s.include?('tishnow') ? :en_tish : :en

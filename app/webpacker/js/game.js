@@ -151,7 +151,7 @@
       });
     };
     var wait_and_poll = function() {
-      setTimeout(get_updated_board, 2000);
+      setTimeout(get_updated_board, 1200);
     };
     var success = function(data){
       if (data && data['html']) {

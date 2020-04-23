@@ -9,10 +9,15 @@
         .row
           .col
             = f.submit class: "btn btn-lg btn-success"
-        .row{style: "margin-top: 30px;"}
+        .row{style: "margin-top: 15px;"}
           .col-xs-12.options_wrapper
             - if I18n.locale == :en_tish
               %p 
-                %i Default rules are more friendly for beginners
+                %i
+                  'Quaker Family' defaults are more friendly.
+                  %br
+                  Choose your own or play 
+                  = succeed "." do
+                    = link_to "hardcore 'Crush'", rules: :crush
 
             = render 'options_table', form: true
