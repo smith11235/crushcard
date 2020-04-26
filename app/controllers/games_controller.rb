@@ -6,32 +6,6 @@ class GamesController < ApplicationController
     redirect_to game_url(id: @game.id), notice: notice
   end
 
-  def webrtc
-    raise "Must sign into game first" unless is_playing?
-    raise "Invalid Type: #{params[:type]}" unless params[:type].present?
-    # TODO: validate types
-
-
-    @game.config[:video_channels] ||= []
-    player_index = @game.player_index(@_current_user)
-    if params[:type] == "start_call" # RESET QUEUE
-      @game.config[:video_channels][player_index] = [{ type: :ignore, message: nil }]
-    else
-      @game.config[:video_channels][player_index] ||= [{ type: :ignore, message: nil }]
-    end
-    # duplicate message check
-    last = @game.config[:video_channels][player_index].last
-    duplicate = last[:type] == params[:type] || last[:message] == params[:message]
-    ignore_start = player_index == 0 && params[:type] == "start_call"
-    #if duplicate
-    if !ignore_start
-      @game.config[:video_channels][player_index] << { type: params[:type], message: params[:message] }
-      @game.save_state
-    end
-    #end
-    render json: { success: true }
-  end
-
   def default_url_options(options = {})
     if params[:debug]
       { debug: true } 
@@ -177,11 +151,14 @@ class GamesController < ApplicationController
     @game = Game.find(@game.id) if params[:action] != 'show'
 
     @board_updated = if params[:updated].nil? # hard page hit - from browser
+                       puts "No Updated Params ------".red
                        true
                      else
                        last_update = DateTime.parse(params[:updated])
-                       #updated = @game.updated_at > last_update
-                       updated = (@game.updated_at - last_update) > 0.99 # ignore milisecond rounding errors
+                       #updated = @game.updated_at > last_update # add milliseconds for precision
+                       #puts "Last fetched: #{params[:updated]}".red
+                       #puts "Updated: Diff: #{@game.updated_at - last_update}".red
+                       updated = (@game.updated_at - last_update) > 0.5 # ignore milisecond rounding errors
                        updated
                      end
 
@@ -278,25 +255,18 @@ class GamesController < ApplicationController
     end
 
     js_data = if request.xhr? && @board_updated
-                d = { html: json_board }
-
-                if @game.config[:video_channels].present?
-                  vids = [] 
-                  @indexes.each do |profile_i|
-                    # Technically - do not need to send the 0-seat, the 'local/current user'
-                    vids << @game.config[:video_channels][profile_i]
-                  end
-                  d.merge!(video: vids) # Note this returns ALL messages from the user
-                end
-
-                d
+                { html: json_board }
               else
                 nil
               end
 
     if request.xhr? 
       render :json => js_data 
-    else
+    else # hard html hit
+      # reset videochat info for user; new connection needed
+      #if @is_playing && @game.config[:video_channels] && @game.config[:video_channels][player_index]
+       # @game.config[:video_channels][player_index] = nil
+      #end
       render 'show'
     end
   end

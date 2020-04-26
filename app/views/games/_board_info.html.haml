@@ -5,7 +5,7 @@
 - extra_class << "game-over" if @winners.present?
 - extra_class << "show_trump_shame" if @game.config[:show_trump_shame] == 'yes'
 
-- game_info = {id: @game.id, url: game_path(id: @game), player_path: player_action_game_path, poll: poll.to_s, updated: @game.updated_at, chime: @chime.to_s }
+- game_info = {id: @game.id, url: game_path(id: @game, updated: @game.updated_at), player_path: player_action_game_path, poll: poll.to_s, chime: @chime.to_s }
 #game{class: extra_class.compact, data: game_info}
   .container-md.game_container
     - if @winners.present?

@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@rails/actioncable": "^6.0.2-2",
+    "@rails/activestorage": "^6.0.2-2",
+    "@rails/ujs": "^6.0.2-2",
     "@rails/webpacker": "5.1.0",
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",

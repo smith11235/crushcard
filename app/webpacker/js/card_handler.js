@@ -1,6 +1,5 @@
 (function() {
   $(document).on("card_handler_start", function(e, raw_game){
-    console.log("Card handler:", raw_game);
     new CardHandler(raw_game);
   })
 
@@ -11,14 +10,12 @@
     var hand;
 
     var init = function(){
-      console.log("CardHandler: Init");
       player_action_path = game.data("playerPath");
       hand = game.find("#hand"); 
 
       hand.on("click", ".playing_card", card_in_hand_clicked)
      
       game.find(".playing_card.played").each(function(i, card){
-        console.log("Load Card", card);
         card = $(card);
         if(card.data('suit')){
           //card.trigger("draw_card");

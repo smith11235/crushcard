@@ -10,12 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_171744) do
+ActiveRecord::Schema.define(version: 2020_04_25_193919) do
 
   create_table "games", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "state"
+  end
+
+  create_table "webrtc_signals", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "from_index"
+    t.integer "to_index"
+    t.string "message_type"
+    t.text "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_webrtc_signals_on_game_id"
   end
 
 end

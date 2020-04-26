@@ -9,7 +9,6 @@ Rails.application.routes.draw do
       get 'toggle_hints'
 
       post 'morph', formats: [:json]
-      post 'webrtc', formats: [:json]
     end
   end
 

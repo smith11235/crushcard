@@ -12,14 +12,6 @@
       $('#game-wrapper').html(board);
 		}
     window.game = new Game(board); // and remove this
-
-    /*
-    if (window.new_board['video'] && window.new_board.video.length > 0) {
-      return $(document).trigger("vidchat_message", {
-        streams: window.new_board.video
-      });
-    }
-    */
   };
   window.show_game_message = function(message){
     var msg = $('#game-wrapper .message');
@@ -144,14 +136,14 @@
         return;
       }
       $.ajax({
-        url: config.url + "&updated=" + config.updated,
+        url: config.url,
         method: "GET",
         success: success,
         error: failed
       });
     };
     var wait_and_poll = function() {
-      setTimeout(get_updated_board, 1200);
+      setTimeout(get_updated_board, 1500);
     };
     var success = function(data){
       if (data && data['html']) {

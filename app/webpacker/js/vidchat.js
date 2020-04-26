@@ -1,150 +1,199 @@
-Vidchat = function(){
-  var started = false;// this local host
-  var ice = null, offer = null, answer = null;
-  var enabled = []; // other players
+(function() {
+  window.load_vidchat = function(){
+    new Vidchat();
+  }
 
-  var startButton = $(document).find('#callButton');
-  var hangupButton = document.getElementById('hangupButton');
-  hangupButton.disabled = true;
-
-  var current_player = $(".webrtc").data("index"); // Profile, not seat number (aka seat number always 0)
-  // TODO: make current_player comparisons
-  // between any 2 players - the 'lower index' is the offer index
-  // aka: compare current_player vs other_user
-
-  hangupButton.addEventListener('click', function(){ alert("HANGUP TODO"); });
-
-  var webrtc = new RTCPeerConnection({
-    iceServers: [
-      {
-        urls: [
-          "stun:stun.stunprotocol.org",
-        ]
-      }
-    ]
-  });
-
-  startButton.on("click", function(){
-    navigator
-      .mediaDevices
-      //.getUserMedia({ video: true }) 
-      .getUserMedia({ video: true, audio: true})
-      .then((localStream) => {
-        // display our local video in the respective tag
-        const localVideo = document.getElementById("video-0");
-        localVideo.srcObject = localStream;
-    
-        // our local stream can provide different tracks, e.g. audio and
-        // video. even though we're just using the video track, we should
-        // add all tracks to the webrtc connection
-        for (const track of localStream.getTracks()) {
-          webrtc.addTrack(track, localStream);
+  var Vidchat = function(){
+    var root = $(".webrtc");
+    var current_player = root.data("index"); // Profile, not seat number (aka seat number always 0)
+    var started = false;// this local host
+    var ice = null, offer = null, answer = null, offer_s = null, answer_s = null;
+  
+    var start_button = root.find('#start_video');
+    var end_button;
+    var local_host;
+  
+    // TODO: make current_player comparisons
+    // between any 2 players - the 'lower index' is the offer index
+    // aka: compare current_player vs other_user
+    var webrtc = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: [
+            "stun:stun.stunprotocol.org",
+          ]
         }
-        
-        send_message("start_call", null);
-        started = true;
-        $(document).trigger("poll_for_update"); // override polling process
-        startButton.addClass("d-none");
-      });
+      ]
+    });
+
+    var end_call = function(e){
+      e.preventDefault();
+      started = false;
+      for (const track of local_host[0].srcObject.getTracks()) {
+        track.stop();
+      }
+      end_button.addClass("d-none");
+      start_button.removeClass("d-none");
+      return false;
+    };
+
+    var got_local_stream = function(local_stream){
+      // display our local video in the respective tag
+      local_host[0].srcObject = local_stream;
+      
+      for(const track of local_host[0].srcObject.getTracks()){
+        webrtc.addTrack(track, local_stream);
+      }
+      
+      send_message("start_call", null, -1);
+      started = true;
+      start_button.addClass("d-none");
+      end_button.removeClass("d-none");
+      $(document).trigger("poll_for_update"); // override polling process in case its not running
+      // Temporary - until websockets
+    };
+  
+    var start_call = function(e){
+      e.preventDefault();
+      end_button = root.find('#end_video');
+      end_button.on('click', end_call);
+      local_host = root.find("#video-" + current_player);
+  
+      navigator
+        .mediaDevices
+        .getUserMedia({ 
+          //video: true, 
+          video: { // throttle bandwidth usage?
+            width: { max: 115 },
+            height: { max: 85 },
+            frameRate: { max: 30 }
+          },
+          audio: true
+        })
+        .then(got_local_stream)
+        .catch(e => console.log('getUserMedia() error: ', e));
+
+      return false;
+    }
+  
+    start_button.on("click", start_call);
    
-  })
-
-  async function send_message(type, message){
-    console.log("Send Message: " + type);
-    path = location.pathname + "/webrtc"
-    $.ajax({
-      url: path,
-      data: { type: type, message: message },
-      method: "POST",
-      success: function(){ /*console.log("Submitted message")*/ },
-      error: function(){ console.log("Failed to submit") }
-    })
-  }
-
-  async function handle_message(message, other_user) {
-    var data = message.message;
-    console.log("Handle Message: Remote #" + other_user + ": " + message.type);
-
-    // TODO: check who sent it - player index
-    // TODO: check index of new message received?
-    // TODO: dont re-process things from users
-    // TODO: offer, answer, ice should be arrays, with 'other_user'
-
-    if(message.type === "start_call"){
-      if(current_player !== 0){ return }
-      //if(!offer){
-        offer = await webrtc.createOffer();
-        await webrtc.setLocalDescription(offer);
-      //}
-      offer_s = JSON.parse(JSON.stringify(offer))
-      send_message('webrtc_offer', offer_s);
-    } else if(message.type ===  'webrtc_offer'){
-      if(current_player === 0){ return }
-      // TODO: only non-0
-      //if(!answer){
-        await webrtc.setRemoteDescription(data);
-        answer = await webrtc.createAnswer();
-        await webrtc.setLocalDescription(answer);
-      //}
-      answer_s = JSON.parse(JSON.stringify(answer))
-      send_message("webrtc_answer", answer_s)
-    } else if(message.type === 'webrtc_answer'){
-      if(current_player !== 0){ return }
-      // TODO: only host 0
-      //if(!enabled[other_user]){
-        await webrtc.setRemoteDescription(data);
-        enabled[other_user] = true;
-      //}
-    } else if(message.type === "webrtc_ice_candidate"){
-      //if(!ice){
-        ice = data
-        await webrtc.addIceCandidate(data); 
-      //}
-    } else {
-      console.log(message)
-      alert("Unknown message");
+    async function send_message(type, message, to_index){
+      // TODO: some messages need a to_index
+      // send offer, send answer
+      var msg = {
+        type: type, message: message,
+        from_index: current_player,
+        to_index: to_index
+      }
+      window.signal(msg);
     }
-  }
+  
+    async function handle_message(message) {
+      var data = message.message;
+      console.log("HandleMessage: From #" + message.from_index + " - " + message.type);
+      // TODO: make sure video entry exists, show connecting 
+      var host = current_player < message.from_index;
 
-  $(document).on("vidchat_message", function(e, data){
-    if(!started){return;}
-    if(!data) {return}
-    if(!data.streams) {return}
-    // skip user 0 - local host
-    //if(event.data.length <= 1){
-    //  return; // no other players yet
-    //}
-    // LOOP OVER STREAMS
-
-    var other_user = 1
-    if(enabled[other_user] === true){return} // stop processing
-
-    // TODO: do we need to process multiple messages?
-    var other_user_queue = data.streams[other_user];
-    if(!other_user_queue){ return }
-    if(other_user_queue.length === 0){ return }
-    var message = other_user_queue[other_user_queue.length - 1]
-    handle_message(message, other_user)
-  });
-
-  webrtc.addEventListener("icecandidate", (event) => {
-    if(!event.candidate){
-      return;
+      if(message.type === "start_call"){
+        if(!host){ 
+          send_message("start_call", null, -1);
+        }  else {
+          //if(!offer){
+            offer = await webrtc.createOffer();
+            await webrtc.setLocalDescription(offer);
+          //}
+          offer_s = JSON.parse(JSON.stringify(offer))
+          send_message('webrtc_offer', offer_s, message.from_index);
+        }
+      } else if(message.type ===  'webrtc_offer'){
+        if(host){ return } // only caller
+        //if(!answer){
+        console.log("Set remote description from Offer +++++++");
+          await webrtc.setRemoteDescription(data);
+          answer = await webrtc.createAnswer();
+          await webrtc.setLocalDescription(answer);
+        //}
+        answer_s = JSON.parse(JSON.stringify(answer))
+        send_message("webrtc_answer", answer_s, message.from_index);
+      } else if(message.type === 'webrtc_answer'){
+        if(!host){ return } // only host
+        console.log("Set remote description from Answer --------");
+        await webrtc.setRemoteDescription(data);
+      } else if(message.type === "webrtc_ice_candidate"){
+        //if(!ice){
+          ice = data
+          await webrtc.addIceCandidate(data); 
+        //}
+      } else {
+        console.log(message)
+        alert("Unknown message");
+      }
     }
-    // when we discover a candidate, send it to the other
-    // party through the signalling server
-    send_message(
-      "webrtc_ice_candidate",
-      JSON.parse(JSON.stringify(event.candidate))
-    );
-  });
+  
+    $(document).on("vidchat_message", function(e, data){
+      console.log("Vidchat message received by #" + current_player, data);
+      if(!started){
+        console.log("  - ignoring - not started");
+      } else if(data.from_index === current_player){
+        console.log("  - ignoring - self message");
+      } else if(data.to_index !== -1 && data.to_index !== current_player){
+        console.log("  - ignoring - for other party", current_player, data.to_index);
+      } else { 
+        handle_message(data)
+      }
+    });
 
-  webrtc.addEventListener("track", (event) => {
-    // we received a media stream from the other person. as we're sure 
-    // we're sending only video streams, we can safely use the first
-    // stream we got. by assigning it to srcObject, it'll be rendered
-    // in our video tag, just like a normal video
-    const remoteVideo = document.getElementById("video-1");
-    remoteVideo.srcObject = event.streams[0];
-  });
-}
+    var get_video = function(user_index){
+      var id = "video-" + user_index;
+      var remote_video = root.find("#" + id);
+      if(remote_video.length === 0){
+        root.find(".videos").append(
+          "<br /><video id=\"" + id + "\" class=\"remote\" playsinline autoplay></video>"
+        )
+      }
+      remote_video = root.find("#" + id);
+      if(remote_video.length === 0){
+        alert("Failed to find remove video box");
+      }
+      return remote_video;
+    }
+  
+    webrtc.addEventListener("iceconnectionstatechange", (event) => {
+      // TODO: webrtc.user_index attribute
+      var state = webrtc.iceConnectionState;
+      console.log(`connection state change w/ peer: ${state}`);
+      if (state === "failed" || state === "closed" || state === "disconnected") {
+        root.find(".videos").empty();
+      }
+    });
+
+    webrtc.addEventListener("icecandidate", (event) => {
+      if(!event.candidate){
+        return;
+      }
+      // when we discover a candidate, send it to the other
+      // party through the signalling server
+      send_message(
+        "webrtc_ice_candidate",
+        JSON.parse(JSON.stringify(event.candidate)),
+        -1
+      );
+    });
+  
+    // do i need a webrtc for each remote person? probably
+    // I think we need a webrtc instance between every pair
+    webrtc.addEventListener("track", (event) => {
+      console.log("Add Remote Track", event, event.streams)
+
+      // TODO: event needs to get/check 'other_user_index'
+      var other_user_index = current_player === 0 ? 1 : 0;
+      var remote_video = get_video(other_user_index);
+
+      // TODO: do we need to add multiple tracks here?
+      //for (const track of event.streams) {
+
+      remote_video[0].srcObject = event.streams[0];
+    });
+  }
+}).call(this);

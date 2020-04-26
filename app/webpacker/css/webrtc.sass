@@ -11,36 +11,23 @@
   top: 120px
   left: 15px
 
-.webrtc a, .video_toggle
-  margin: 0 0 10px 0 
-  //width: 115px
-  border-color: white !important
-.video_toggle
-  padding-left: 5px !important
-  padding-right: 5px !important
-
 .webrtc
   z-index: 1500
   position: absolute
   top: 120px
   left: 15px
-  table
-    margin: 0
+  text-align: center
   video 
+    margin-top: 5px
     width: 115px
     height: 85px
-    margin: 5px
-    margin-left: 0px
     vertical-align: top
     background-color: darkgrey
     border-radius: 5px
-  
-  @media screen and (max-width: 400px) 
-    a 
-      width: 83px
-      margin: 0 11px 10px 0
-  
+    &.remote
+      background-color: #6f6f6f
+
+  @media screen and (max-width: 425px) 
     video
       height: 70px
-      margin: 0
       width: 70px

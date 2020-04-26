@@ -18,31 +18,26 @@ require.context('../images', true)
 //import 'jquery_ujs'
 import 'jquery'
 import 'popper.js'
-//import 'bootstrap'
 import 'bootstrap/dist/js/bootstrap';
-
-
-//import Rails from "@rails/ujs"
 
 require("jquery-ui-dist/jquery-ui")
 require('../js/grayscale.js') // homepage ui helper
 require('../js/draw_card.js')
 require('../js/card_handler.js')
 require('../js/game.js') //.coffee for source
-//import '../src/vidchat.js' // TODO
+require('../js/vidchat.js') // TODO
 
-//require("@rails/ujs").start()
-// activestorage
-// channels
-//Rails.start()
+require("@rails/ujs").start()
+require("@rails/activestorage").start()
+require('../js/channels/index.js')
 
-import '../css/application'
+import '../css/application' // TODO: should this just be ./packs/styles
 
 $(function() {
   var game = $("#game");
   if(game.length > 0){
 	  window.new_board = { html: game[0] };
     window.load_new_board();
-    //new Vidchat();
+    window.load_vidchat();
   }
 });

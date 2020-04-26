@@ -1,4 +1,5 @@
 class Game < ApplicationRecord
+  has_many :webrtc_signals
 
   MIN_PLAYERS=3
 
