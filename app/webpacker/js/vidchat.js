@@ -55,6 +55,8 @@
   
     var start_call = function(e){
       e.preventDefault();
+      window.start_channel();
+
       end_button = root.find('#end_video');
       end_button.on('click', end_call);
       local_host = root.find("#video-" + current_player);
