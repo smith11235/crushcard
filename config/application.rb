@@ -22,9 +22,8 @@ module Crushcard
 
     #config.action_cable.mount_path = '/websocket'
     if Rails.env.production?
-      config.action_cable.allowed_request_origins = ['http(s)?:\/\/tishnow.com']
+      config.action_cable.allowed_request_origins = ['https://tishnow.com']
     else
-      puts "Allow action cable from all hosts".red
       config.action_cable.disable_request_forgery_protection = true
     end
   end
