@@ -1,4 +1,12 @@
 (function() {
+  var prompts = $(".vidchat_prompts");
+  prompts.find(".no-chat").on("click", function(e){
+    e.preventDefault();
+    console.log("Hide chats");
+    prompts.addClass("hidden");
+    return false;
+  });
+
   window.load_vidchat = function(){
     window.start_channel();
     new VidchatControls();
@@ -71,11 +79,21 @@
       this.remote_video = this.root.find("#" + id)[0];
 
       this.peer = new RTCPeerConnection({
+        /*
         iceServers: [
           {
             urls: [
               "stun:stun.stunprotocol.org",
             ]
+          }
+        ]
+        */
+        iceServers: [
+          { urls: [ "stun:us-turn3.xirsys.com" ]}, 
+          {   
+            username: "R9pIDqbkig-yVvbXsrI2ye8m-Kk44TXKpIS1mSVc0FKPqQptUXACvskWHZI5q5NlAAAAAF6tsENzbWl0aDExMjM1",   
+            credential: "d7f99cbe-8c9b-11ea-8dc4-2ab41d49acc5",   
+            urls: [       "turn:us-turn3.xirsys.com:80?transport=udp",       "turn:us-turn3.xirsys.com:3478?transport=udp",       "turn:us-turn3.xirsys.com:80?transport=tcp",       "turn:us-turn3.xirsys.com:3478?transport=tcp",       "turns:us-turn3.xirsys.com:443?transport=tcp",       "turns:us-turn3.xirsys.com:5349?transport=tcp"   ]
           }
         ]
       });
@@ -98,12 +116,15 @@
 
       this.peer.addEventListener("track", (event) => {
         // TODO: check if srcObject already set?
+        // TODO: should i add 2 tracks to stream?
+
         console.log("Add Track: " + this.between, event.streams)
         if(this.remote_video.srcObject === null){
-          this.remote_video.srcObject = event.streams[0];
-        } else {
-          console.log(" - Track already present!!!")
+           this.remote_video.srcObject = new MediaStream();
         }
+        this.remote_video.srcObject.addTrack(event.track, this.remote_video.srcObject);
+        //this.remote_video.srcObject = event.streams[0]; 
+        // was this, but didnt work for 3x
       });
 
       this.addLocalStream();
