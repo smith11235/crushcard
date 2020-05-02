@@ -1,15 +1,9 @@
 (function() {
-  var prompts = $(".vidchat_prompts");
-  prompts.find(".no-chat").on("click", function(e){
-    e.preventDefault();
-    console.log("Hide chats");
-    prompts.addClass("hidden");
-    return false;
-  });
 
   window.load_vidchat = function(){
     window.start_channel();
     new VidchatControls();
+
   }
 
   var VidchatControls = function(){
@@ -26,8 +20,8 @@
         .mediaDevices
         .getUserMedia({ 
           video: { 
-            width: { max: 115 },
-            height: { max: 85 },
+            width: { max: 160 },
+            height: { max: 120 },
             frameRate: { max: 30 }
           },
           audio: true
@@ -41,25 +35,35 @@
       // display our local video in the respective tag
       local_host[0].srcObject = stream;
 
-      start_button.addClass("d-none");
-      end_button.removeClass("d-none");
+      root.find(".vidchat_engaged").removeClass("d-none");
+      root.find(".vidchat_prompts").addClass("d-none");
 
       var vidchat = new Vidchat(stream);
       vidchat.start();
     };
 
+    var hide_chats = function(e){
+      e.preventDefault();
+      root.addClass("d-none");
+      return false;
+    }
+
     var end_call = function(e){
       e.preventDefault();
-      for (const track of local_host[0].srcObject.getTracks()) {
-        track.stop();
-      }
-      end_button.addClass("d-none");
-      start_button.removeClass("d-none");
+      root.find("video").each(function(i, v){
+        for(const track of v.srcObject.getTracks()){
+          track.stop();
+        }
+      });
+      // TODO: clean this up
+      root.find(".vidchat_engaged").addClass("d-none");
+      root.find(".vidchat_prompts").removeClass("d-none");
       return false;
     };
 
     start_button.on("click", start_call);
     end_button.on('click', end_call);
+    root.find("#no-chat").on("click", hide_chats);
   }
 
   class Vidpeer {

@@ -1,28 +1,25 @@
-- show_video = params[:webrtc] && @is_playing
-- current_player = @indexes[0]
-.webrtc{class: (show_video ? nil : "d-none"), data: {index: current_player}}
-  / Examples: https://webrtc.github.io/samples/
-  / Guide: http://www.html5rocks.com/en/tutorials/webrtc/basics/
+- if @is_playing
+  - current_player = @indexes[0]
+  .webrtc{data: {index: current_player}}
+    .vidchat_prompts
+      = link_to game_path(webrtc: true), id: :start_video, class: "btn btn-sm btn-success" do
+        %i.fa.fa-video-camera
+        Vidchat
+      %br
+      = link_to "#", id: "no-chat", class: "btn btn-sm btn-success", style: "margin-top: 10px;" do
+        %i.fa.fa-times-circle-o
+        No chat
 
-  = link_to "#", id: :start_video, class: "btn btn-sm btn-success" do
-    %i.fa.fa-video-camera
-    Call
-  = link_to "End Call", "#", id: :end_video, class: "btn btn-sm btn-success d-none"
-  %br
-  /- opts = [["Default", ""], ["Unified Plan", "unified-plan"], ["Plan B", "plan-b"]]
-  /= select_tag "sdpSemantics", options_for_select(opts, selected: "")
-  .videos
-    %video{playsinline: true, autoplay: true, muted: true, id: "video-#{current_player}"} 
-  
-  = javascript_include_tag "https://webrtc.github.io/adapter/adapter-latest.js"
+    .vidchat_engaged.d-none
+      /- opts = [["Default", ""], ["Unified Plan", "unified-plan"], ["Plan B", "plan-b"]]
+      /= select_tag "sdpSemantics", options_for_select(opts, selected: "")
+      = link_to "#", id: :end_video, class: "btn btn-sm btn-default" do
+        %i.fa.fa-phone
+        End
+      %br
+      .videos
+        %video{playsinline: true, autoplay: true, muted: true, id: "video-#{current_player}"} 
+      
+    = javascript_include_tag "https://webrtc.github.io/adapter/adapter-latest.js"
 
-- if @is_playing && !show_video 
-  .vidchat_prompts
-    = link_to game_path(webrtc: true), class: "btn btn-sm btn-success" do
-      %i.fa.fa-video-camera
-      Vidchat
-    %br
-    = link_to "#", class: "no-chat btn btn-sm btn-success" do
-      %i.fa.fa-times-circle-o
-      No chat
 
