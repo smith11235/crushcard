@@ -7,7 +7,8 @@
         (bidding in progress)
       %span.play
         (double click to play)
-#hand{style: "position: relative;"}
+- #@cards = (1..5).collect {|i| @cards.first} # for Development/hand size tewsting
+#hand{class: "hand-size-#{@cards.size}"}
   - @cards.each_with_index do |card,i|
     %span.card_wrapper{id: "card#{i}"}
       = render 'playing_card', id: "canv#{i}", card: card

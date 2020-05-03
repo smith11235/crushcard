@@ -2,6 +2,7 @@
   margin: auto
 
 #hand
+  position: relative
   margin: auto
   background: #969696
   max-width: 780px
@@ -33,15 +34,26 @@
 
 @media screen and (max-width: 425px)
   #hand
-    max-width: 95vw
+    max-width: 97vw
     height: 95px
-    .card_wrapper
-      position: absolute
     .playing_card
       position: relative
       height: 85px
       width: 55px 
+    &.hand-size-7 .card_wrapper
+      margin-left: -10px
+    &.hand-size-8 .card_wrapper
+      margin-left: -18px
+    &.hand-size-9 .card_wrapper
+      margin-left: -23px
+    &.hand-size-10 .card_wrapper
+      margin-left: -26px
 
+    &.hand-size-7, &.hand-size-8, &.hand-size-9, &.hand-size-10
+      .card_wrapper:first-child
+        margin-left: 0px
+
+  .static_layout
     #card0
       left: 5px
     #card1
