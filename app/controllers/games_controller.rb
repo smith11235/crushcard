@@ -153,7 +153,6 @@ class GamesController < ApplicationController
     @game = Game.find(@game.id) if params[:action] != 'show'
 
     @board_updated = if params[:updated].nil? # hard page hit - from browser
-                       puts "No Updated Params ------".red
                        true
                      else
                        last_update = DateTime.parse(params[:updated])
