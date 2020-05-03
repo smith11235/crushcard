@@ -1,4 +1,4 @@
-- if @is_playing
+- if @is_playing && !Rails.env.production?
   - current_player = @indexes[0]
   .webrtc{data: {index: current_player}}
     .vidchat_prompts

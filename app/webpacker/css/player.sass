@@ -17,21 +17,21 @@
 #game
   .board-wrapper-small
     .player_card
-      padding: 5px
+      padding: 3px
       width: auto
       margin: auto
       min-width: 200px
       max-width: 220px
+      border-width: 1px
       .score, .bid_hint
         display: none
-      .score, .bid_hint, .debug_info
+      .score, .bid_hint, .table_bids, .debug_info
         font-weight: normal
 
   &.show_hints
     .player_card 
       .bid_hint, .score
         display: block
-
 
   .player_card:hover
     cursor: pointer

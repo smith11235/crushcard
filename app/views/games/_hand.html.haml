@@ -1,4 +1,4 @@
-%h5.hand_note{style: "margin-bottom: 5px;"}
+%h6.hand_note
   %span
     Your Hand 
   %span
@@ -11,3 +11,5 @@
   - @cards.each_with_index do |card,i|
     %span.card_wrapper{id: "card#{i}"}
       = render 'playing_card', id: "canv#{i}", card: card
+%h6
+  Round of #{@game.num_cards_per_player}

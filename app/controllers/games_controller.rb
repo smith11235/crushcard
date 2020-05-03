@@ -114,6 +114,8 @@ class GamesController < ApplicationController
       card = Card.new(params[:suit], params[:value])
       if @game.player_action(@_current_user, card)
         @notice = "Played card!"
+      elsif !@game.done_bidding?
+        error = "Please make a bid"
       else
         error = "You must follow the first suit played: \"#{@game.config[:first_suit_played]}\""
       end

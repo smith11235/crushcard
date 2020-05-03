@@ -142,10 +142,6 @@ class Game < ApplicationRecord
     info = "##{current_user_index} vs ##{waiting_user_index} - #{current_user} vs #{waiting_user}"
     if current_user_index != waiting_user_index 
       false
-    elsif current_user != waiting_user # deprecated
-      #raise "SHOULD NOT GET HERE"
-      #false
-      true
     else
       true
     end
@@ -197,9 +193,13 @@ class Game < ApplicationRecord
     all_add_up
   end
 
+  def first_to_play
+    config[:first_to_play] 
+  end
+
   def set_first_to_play_hand
     left_of_dealer = next_player_index(config[:dealer_index])
-    next_up = if config[:first_to_play] == 'highest'
+    next_up = if first_to_play == 'highest'
                 max_bid = config[:bids].max
                 bidder = nil
                 iterate_through_list_with_start_index(left_of_dealer, config[:bids]) do |bid,i|
@@ -229,7 +229,9 @@ class Game < ApplicationRecord
     current_player_index = player_index(user_id)
     
     # check if we are in bidding or playing a card
-    if !done_bidding?
+    if (!done_bidding?) && user_input.to_s !~ /^\d+$/ # aka: user input == Card
+      return false # correct user - played card rather than bid
+    elsif !done_bidding?
       bid = user_input.to_i
       if !bid_in_range?(bid) 
         return false
