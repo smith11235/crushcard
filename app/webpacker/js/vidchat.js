@@ -81,6 +81,7 @@
         "<br /><video id=\"" + id + "\" class=\"remote\" playsinline autoplay></video>"
       )
       this.remote_video = this.root.find("#" + id)[0];
+      this.remote_stream = null;
 
       this.peer = new RTCPeerConnection({
         /*
@@ -120,17 +121,46 @@
 
       this.peer.addEventListener("track", (event) => {
         console.log("Add Track: " + this.between, event.streams)
-        this.remote_stream = new MediaStream();
+        if(this.remote_stream === null){
+          this.remote_stream = new MediaStream();
+        }
         this.remote_stream.addTrack(event.track, this.remote_stream);
-        // Instead: https://rollout.io/blog/webrtc-issues-and-how-to-debug-them/
-        // TODO: this.peer.state === "completed"
-        if(this.remote_video.srcObject === null && this.remote_stream.getVideoTracks().length > 0){
-          console.log("Add remote video source!");
-          this.remote_video.srcObject = this.remote_stream;
+        this.setRemoteVideo();
+      });
+
+      this.peer.addEventListener("connectionstatechange", (event) => {
+        console.log("ConnectionStateChange", this.peer.connectionState);
+        this.setRemoteVideo(); // once connected
+      });
+
+      this.peer.addEventListener("iceconnectionstatechange", (event) => {
+        var state = this.peer.iceConnectionState;
+        console.log("IceConnectionStateChange", state); 
+        if(state === "failed" || state === "closed" || state === "disconnected"){
+          console.log("Signal to Vidchat to remove peer: " + this.between);
+          // delete peers[i], remove this.remote_video.empty();
         }
       });
 
       this.addLocalStream();
+    }
+
+    async setRemoteVideo(){
+      // https://rollout.io/blog/webrtc-issues-and-how-to-debug-them/
+      console.log("Set Remote Video: " + this.between, this.peer.connectionState, this.remote_video.srcObject, this.remote_stream.getVideoTracks().length);
+      if(this.peer.connectionState !== "connected"){
+        console.log(" - not connected");
+        return; // dont set video until connection is stable
+      } else if(this.remote_video.srcObject !== null){
+        console.log(" - video srcObject set already");
+        return; // already set
+      } else if(this.remote_stream.getVideoTracks().length === 0){
+        console.log(" - no video track yet");
+        return; // video stream not yet received
+      } else {
+        console.log(" - setRemoteVideo!!!!");
+        this.remote_video.srcObject = this.remote_stream;
+      }
     }
 
     async addLocalStream(){
@@ -175,7 +205,9 @@
     }
 
     async addIce(ice){
-      console.log("Add ICE: " + this.between);
+      console.log("Add ICE: " + this.between, ice);
+      // queue up received ice candidates before allow_ice ready?
+      // then play them all once this is hit
       await this.peer.addIceCandidate(ice); 
     }
   }
