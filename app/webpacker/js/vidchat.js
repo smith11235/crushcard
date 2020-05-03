@@ -119,16 +119,15 @@
       }, false);
 
       this.peer.addEventListener("track", (event) => {
-        // TODO: check if srcObject already set?
-        // TODO: should i add 2 tracks to stream?
-
         console.log("Add Track: " + this.between, event.streams)
-        if(this.remote_video.srcObject === null){
-           this.remote_video.srcObject = new MediaStream();
+        this.remote_stream = new MediaStream();
+        this.remote_stream.addTrack(event.track, this.remote_stream);
+        // Instead: https://rollout.io/blog/webrtc-issues-and-how-to-debug-them/
+        // TODO: this.peer.state === "completed"
+        if(this.remote_video.srcObject === null && this.remote_stream.getVideoTracks().length > 0){
+          console.log("Add remote video source!");
+          this.remote_video.srcObject = this.remote_stream;
         }
-        this.remote_video.srcObject.addTrack(event.track, this.remote_video.srcObject);
-        //this.remote_video.srcObject = event.streams[0]; 
-        // was this, but didnt work for 3x
       });
 
       this.addLocalStream();

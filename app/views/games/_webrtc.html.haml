@@ -13,7 +13,7 @@
     .vidchat_engaged.d-none
       /- opts = [["Default", ""], ["Unified Plan", "unified-plan"], ["Plan B", "plan-b"]]
       /= select_tag "sdpSemantics", options_for_select(opts, selected: "")
-      = link_to "#", id: :end_video, class: "btn btn-sm btn-default" do
+      = link_to "#", id: :end_video, class: "btn btn-sm btn-success" do
         %i.fa.fa-phone
         End
       %br
