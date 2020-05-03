@@ -19,11 +19,12 @@
       navigator
         .mediaDevices
         .getUserMedia({ 
-          video: { 
-            width: { max: 160 },
-            height: { max: 120 },
-            frameRate: { max: 30 }
-          },
+          video: true,
+          //{ // IOS may not support this - and mobile chrome
+          //  width: { max: 160 },
+          //  height: { max: 120 },
+          //  frameRate: { max: 30 }
+          //},
           audio: true
         })
         .then(got_local_stream)
