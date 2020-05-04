@@ -12,9 +12,9 @@
     - if show
       #{display_name(@names[index])}
       - if @indexes[index] == @game.config[:dealer_index]
-        = image_tag 'cards-favicon.png', size: "25x25", style: "border: 1px white solid; background-color: white;"
+        = image_tag 'cards-favicon.png', size: "25x25", class: :dealer_icon, style: "border: 1px white solid; background-color: white;"
       - if config[:first_to_play] != 'highest' && @indexes[index] == @game.next_player_index(@game.config[:dealer_index]) && !@done_bidding
-        %i.fa.fa-play-circle{style: "font-size: 22px;"}
+        %i.fa.fa-play-circle.first_to_play_icon{style: "font-size: 22px;"}
     - else
       Player not present
   

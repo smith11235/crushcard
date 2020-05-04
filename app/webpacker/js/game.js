@@ -124,7 +124,9 @@
             username: username
           },
           method: "POST",
-          success: success,
+          success: function(){ // success, # do a full page refresh vs board refresh
+            location.reload();
+          },
           error: failed
         });
       } else {

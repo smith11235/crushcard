@@ -11,7 +11,7 @@
     var start_button = root.find('#start_video');
     var end_button = root.find('#end_video');
     var current_player = root.data("index"); 
-    var local_host = root.find("#video-" + current_player); 
+    var local_host = root.find("#video-" + current_player)[0]; 
     var local_stream;
 
     var start_call = function(e){
@@ -28,17 +28,18 @@
           audio: true
         })
         .then(got_local_stream)
-        .catch(e => console.log('getUserMedia() error: ', e));
+        .catch(e => { 
+          console.log('getUserMedia() error: ', e);
+          alert("Could not start videochat. (If on Apple Mobile, you must use Safari)");
+        });
       return false;
     }
 
     var got_local_stream = function(stream){
       // display our local video in the respective tag
-      local_host[0].srcObject = stream;
-
       root.find(".vidchat_engaged").removeClass("d-none");
       root.find(".vidchat_prompts").addClass("d-none");
-
+      local_host.srcObject = stream;
       var vidchat = new Vidchat(stream);
       vidchat.start();
     };
@@ -81,7 +82,11 @@
       this.root.find(".videos").append(
         "<br /><video id=\"" + id + "\" class=\"remote\" playsinline autoplay></video>"
       )
+      //https://github.com/googlecodelabs/webrtc-web/issues/91
       this.remote_video = this.root.find("#" + id)[0];
+      //this.remote_video.autoplay = true;
+      //this.remote_video.playsInline = true;
+      //this.remote_video.muted = true; // TODO: is this correct?
       this.remote_stream = null;
 
       this.peer = new RTCPeerConnection({
