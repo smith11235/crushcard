@@ -10,7 +10,7 @@ class Game < ApplicationRecord
   def total_rounds
     t = config[:total_rounds] # validated 2-10
     if num_players > 5
-      (Card::DECK_SIZE / t) # 6 => 8, 7 => 7, 8 => 6
+      (Card::DECK_SIZE / num_players) # 6 => 8, 7 => 7, 8 => 6
     else
       t
     end
