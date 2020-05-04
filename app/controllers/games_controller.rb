@@ -69,9 +69,12 @@ class GamesController < ApplicationController
     error = nil
     if !@game.enough_players?
       error = "Must have between #{Game::MIN_PLAYERS} and #{@game.max_players} players to start"
-    elsif @game.config[:cards_in_play].nil?
+    elsif @game.config[:first_dealer_index].nil?
+      @game.deal_for_highest_card
+      @notice = "Highest card deals first"
+    elsif @game.config[:deck].nil? || @game.config[:deck].empty?
       @game.deal_cards
-      @notice = "Game has started!"
+      @notice = "Game started!"
     else
       error = 'Game has already started'
     end

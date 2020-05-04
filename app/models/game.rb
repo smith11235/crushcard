@@ -35,14 +35,27 @@ class Game < ApplicationRecord
       player_hands: [],
       winner_index: nil,
       winners: [],
-      last_to_lead_with_trump: nil
+      last_to_lead_with_trump: nil,
+      first_dealer: nil
     }
     options.each do |k, v|
       state.merge! k.to_sym => v
     end
 
+
+
     # TODO: stringify all keys - json field 
     save_state state
+  end
+
+  def deal_for_highest_card
+    deck = Card.get_shuffled_deck
+    config[:cards_in_play] = config[:players].collect {deck.pop}
+    highest_card = config[:cards_in_play].max
+    config[:dealer_index] = config[:cards_in_play].find_index(highest_card)
+    config[:first_dealer_index] = config[:dealer_index]
+
+    save_state
   end
 
   def already_started?
@@ -384,7 +397,7 @@ class Game < ApplicationRecord
 
     # if trump was played, ignore other cards
     # an ace indicates no trump, so ignore it if that's the case
-    trump_cards = ignore_trump? ? [] : cards.compact.select { |c| c.suit == trump.suit }
+    trump_cards = ignore_trump? || trump.nil? ? [] : cards.compact.select { |c| c.suit == trump.suit }
 
     # if trump wasn't played or there is no trump (ace),
     # only cards that are the same suit as the first card played matter
