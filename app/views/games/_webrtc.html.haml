@@ -1,8 +1,8 @@
-- if @is_playing && !Rails.env.production?
+- if @is_playing && !(Rails.env.production? && params[:webrtc].blank?)
   - current_player = @indexes[0]
   .webrtc{data: {index: current_player}}
     .vidchat_prompts
-      = link_to game_path(webrtc: true), id: :start_video, class: "btn btn-sm btn-success" do
+      = link_to "#", id: :start_video, class: "btn btn-sm btn-success" do
         %i.fa.fa-video-camera
         Vidchat
       %br
