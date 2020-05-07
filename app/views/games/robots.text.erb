@@ -1,0 +1,8 @@
+User-agent: *
+<% if Rails.env.production? || params[:robots] %>
+Allow: /
+Allow: /new
+Disallow: /*
+<% else %>
+Disallow: /
+<% end %>

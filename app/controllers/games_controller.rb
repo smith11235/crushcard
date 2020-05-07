@@ -1,6 +1,9 @@
 class GamesController < ApplicationController
 
-  before_action :set_game, except: [:index, :new, :create]
+  before_action :set_game, except: [:index, :new, :create, :robots]
+
+  def robots
+  end
 
   def game_redirect(notice)
     redirect_to game_url(id: @game.id), notice: notice
