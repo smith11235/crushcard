@@ -13,5 +13,6 @@
     - @cards.each_with_index do |card,i|
       %span.card_wrapper{id: "card#{i}"}
         = render 'playing_card', id: "canv#{i}", card: card
-  %h6
+  %h6{style: "margin-top: 5px;"}
     Round of #{@game.num_cards_per_player}
+    (#{@game.config[:deck].size} cards left in deck)

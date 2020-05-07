@@ -156,126 +156,43 @@ class GamesController < ApplicationController
     @game = Game.find(@game.id) if params[:action] != 'show'
 
     @board_updated = if params[:updated].nil? # hard page hit - from browser
+                       #puts "No updated param".red
                        true
                      else
                        last_update = DateTime.parse(params[:updated])
+                       # TODO: add milliseconds to the serialization of updated
                        #updated = @game.updated_at > last_update # add milliseconds for precision
                        #puts "Last fetched: #{params[:updated]}".red
                        #puts "Updated: Diff: #{@game.updated_at - last_update}".red
                        updated = (@game.updated_at - last_update) > 0.5 # ignore milisecond rounding errors
+                       #puts "Updated: #{updated} (#{@game.updated_at} - #{last_update} = #{@game.updated_at - last_update})".red
                        updated
                      end
 
-    if @board_updated
-      @enough_players = @game.enough_players?
+    @enough_players = @game.enough_players?
+    @game_started = @enough_players && !@game.config[:bids].nil?
   
-      @dealt = @game.config[:player_hands].present?
-      @game_started = !@game.config[:bids].nil?
-
-      @can_start_game = (!@game_started) && @game.config[:players].first == @_current_user && @enough_players # can deal
-  
-      @winners = @game.config[:winners].map{|player| @game.config[:names][@game.config[:players].index(player)] } rescue nil
-      player_index = @game.player_index(@_current_user) || 0
-  
-      # round number
-      @round = @game.config[:total_rounds] - @game.config[:rounds_played]
-  
-      # names/scores around the board
-      # add in different order so the user is always on the bottom
-      @names = []
-      @indexes = []
-      @total_scores = []
-      @round_scores = []
-
-      # Convert static profile order to relative current user ordering, current_user=0
-      @game.iterate_through_list_with_start_index(player_index, @game.config[:players]) do |user_id, i|
-        @indexes.push @game.config[:players].index(user_id)
-
-        bid_avail = @game.config[:bids] && @game.config[:bids][i]
-        tricks_taken = (@game.config[:tricks_taken] && @game.config[:tricks_taken][i]) ? @game.config[:tricks_taken][i].size : 0
-        tricks_taken = "??" unless bid_avail
-        bid = bid_avail ? @game.config[:bids][i] : '??'
-        score = 0
-        if @game.config[:score] && @game.config[:score][i]
-          score = @game.config[:score][i].sum
-        end
-        bid_info = "Taken #{tricks_taken} / #{bid} Bid" 
-        bid_color = if (!bid_avail) || tricks_taken == bid
-                      :white
-                    else
-                      bid > tricks_taken ? :red : :yellow
-                    end
-
-        @names.push @game.config[:names][i] 
-        @total_scores.push score
-        @round_scores.push [bid_info, bid_color]
-      end
-  
-      @places = []
-      @total_scores.each_with_index do |score, i|
-        @places[i] = @total_scores.select{|t| t > score}.count + 1
-      end
-      
-      # players hand
-      @cards = []
-      if is_playing?
-        @cards = @game.config[:player_hands][player_index] || @cards
-      end
-      @cards.sort! { |a,b| a.suit_order b }
-
-      # cards that have been played
-      @played_cards = @game.config[:cards_in_play] || []
-      if @game_started
-        # display cards in different order since the user is on the bottom
-        @played_cards = []
-        @game.iterate_through_list_with_start_index(player_index, @game.config[:players]) do |player,i|
-          @played_cards.push @game.config[:cards_in_play][i]
-        end
-      end
-  
-  
-      # game status (ie. who we're waiting on)
-      @done_bidding = @game.done_bidding?
-      if @game.config[:waiting_on_index] 
-        @waiting_on_index = @game.config[:waiting_on_index]
-        @waiting_on = if @waiting_on_index 
-                        @game.config[:waiting_on_reason]
-                      else
-                        "Table to clear" # TODO: move into game
-                      end
-      end
-      @waiting_on_you = @waiting_on_index == @indexes[0] # seat 0 is the up-next user?
-      if @waiting_on_you && @game.config[:waiting_on_chime]
-        @game.config[:waiting_on_chime] = nil
-        @game.save_state
-        @chime = true
-      end
-    
-      # show ace of spades if game hasnt started
-      @trump = @game.config[:trump_card] # || Card.new('Spades', 12)
-  
-      @poll = !@game_started # waiting room - everyone is waiting for updates
-      @poll = !@waiting_on_you unless @poll
-    end
-
-    js_data = if request.xhr? && @board_updated
-                { html: json_board }
+    js_data = if @board_updated
+                process_show
+                if request.xhr?
+                  { html: json_board }
+                else
+                  nil
+                end
               else
                 nil
               end
 
     if request.xhr? 
       render :json => js_data 
-    else # hard html hit
-      # reset videochat info for user; new connection needed
-      #if @is_playing && @game.config[:video_channels] && @game.config[:video_channels][player_index]
-       # @game.config[:video_channels][player_index] = nil
-      #end
+    else # direct page hit
+      puts "RENDER BOARD FOR DIRECT HIT".red
       render 'show'
     end
   end
 
   def json_board
+    puts "RENDER BOARD FOR JSON".red
     render_to_string(partial: "board_info", formats: ["html"])
   end
 
@@ -301,9 +218,95 @@ class GamesController < ApplicationController
   end
 
   private
+    def process_show
+      @dealt = @game.config[:player_hands].present?
+
+      @can_start_game = (!@game_started) && @game.config[:players].first == @_current_user && @enough_players # can deal
+  
+      @winners = @game.config[:winners].map{|player| @game.config[:names][@game.config[:players].index(player)] } rescue nil
+      player_index = @game.player_index(@_current_user) || 0
+  
+      # round number
+      @round = @game.config[:total_rounds] - @game.config[:rounds_played]
+  
+      # names/scores around the board
+      # add in different order so the user is always on the bottom
+      @names = []
+      @indexes = []
+      @total_scores = []
+      @round_scores = []
+      @played_cards = []
+
+      # Convert static profile order to relative current user ordering, current_user=0
+      @game.iterate_through_list_with_start_index(player_index, @game.config[:players]) do |user_id, i|
+        @indexes.push @game.config[:players].index(user_id)
+        # TODO: remove need for names, scores, round scores, use indexes and raw info
+
+        bid_avail = @game.config[:bids] && @game.config[:bids][i]
+        tricks_taken = (@game.config[:tricks_taken] && @game.config[:tricks_taken][i]) ? @game.config[:tricks_taken][i].size : 0
+        tricks_taken = "??" unless bid_avail
+        bid = bid_avail ? @game.config[:bids][i] : '??'
+        score = 0
+        if @game.config[:score] && @game.config[:score][i]
+          score = @game.config[:score][i].sum
+        end
+        bid_info = "Taken #{tricks_taken} / #{bid} Bid" 
+        bid_color = if (!bid_avail) || tricks_taken == bid
+                      :white
+                    else
+                      bid > tricks_taken ? :red : :yellow
+                    end
+
+        @played_cards.push(@game.config[:cards_in_play][i]) if @game.config[:cards_in_play].present?
+        @names.push @game.config[:names][i] 
+        @total_scores.push score
+        @round_scores.push [bid_info, bid_color]
+      end
+  
+      @places = []
+      @total_scores.each_with_index do |score, i|
+        @places[i] = @total_scores.select{|t| t > score}.count + 1
+      end
+      
+      # players hand - TODO: relabel
+      @cards = []
+      if is_playing?
+        @cards = @game.config[:player_hands][player_index] || @cards
+      end
+      @cards.sort! { |a,b| a.suit_order b }
+
+      # game status (ie. who we're waiting on)
+      @done_bidding = @game.done_bidding?
+      if @game.config[:waiting_on_index] 
+        @waiting_on_index = @game.config[:waiting_on_index]
+        @waiting_on = if @waiting_on_index 
+                        @game.config[:waiting_on_reason]
+                      else
+                        "Table to clear" # TODO: move into game
+                      end
+      end
+      @waiting_on_you = @waiting_on_index == @indexes[0] # seat 0 is the up-next user?
+      if @waiting_on_you && @game.config[:waiting_on_chime]
+        @game.config[:waiting_on_chime] = nil
+        @game.save_state
+        @chime = true
+      end
+    
+      # show ace of spades if game hasnt started
+      @trump = @game.config[:trump_card] # || Card.new('Spades', 12)
+  
+      @poll = !@game_started # waiting room - everyone is waiting for updates
+      @poll = !@waiting_on_you unless @poll
+
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_game
-      @game = Game.find(params[:id])
+      @game = Game.find_by(id: params[:id])
+      if @game.nil?
+        # TODO: make notice work
+        redirect_to root_path(anchor: :games), notice: "Sorry, that game does not exist" 
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,7 +1,5 @@
 class Game < ApplicationRecord
-  has_many :webrtc_signals
-
-  MIN_PLAYERS=3
+  MIN_PLAYERS=(Rails.env.production? ? 3 : 2) # easier dev/testing with 2
 
   def max_players
     config[:max_players].to_i

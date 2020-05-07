@@ -143,7 +143,6 @@
     .right_actions
       margin-right: 50px
     
-
   @media screen and (max-width: 425px)
     height: 110px
     .left_actions
@@ -155,9 +154,20 @@
       right: 0px
    
   .controls
-    .bid_form .btn
-      border-top-left-radius: 0px !important
-      border-bottom-left-radius: 0px !important
+    .bid_form 
+      width: 120px
+      margin: auto
+      .btn
+        border-top-left-radius: 0px !important
+        border-bottom-left-radius: 0px !important
+    .waiting_notice, .action_notice
+      margin: auto
+      max-width: 140px
+    .waiting_notice
+      display: none
+      margin-bottom: 5px
+      font-style: italic
+
   
 .trump_shame
   display: none
@@ -186,10 +196,6 @@
 #game
   &.game_over
     .controls
-      display: none
-
-  .controls
-    .waiting_notice
       display: none
 
   &.show_hints

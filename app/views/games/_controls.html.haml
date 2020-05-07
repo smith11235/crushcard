@@ -1,37 +1,37 @@
+/ TODO: control display by more css
 .controls
-  - if @waiting_on !~ /game\sto\sstart/i # prenotice displayed elsewehre
-    .waiting_notice
-      %h5{style: "max-width: 140px; margin-bottom: 10px;"}
-        %i
-          - name = @waiting_on_index == @indexes[0] ? "You" : display_name(@game.config[:names][@waiting_on_index])
-          #{name}
-          %br
-          to #{@waiting_on}
+  %h5.waiting_notice
+    - if !@enough_players
+      Need more players
+      %br
+      (#{Game::MIN_PLAYERS} to #{@game.max_players})
+    - else 
+      - name = @waiting_on_you ? "You" : display_name(@game.config[:names][@waiting_on_index])
+      = name
+      %br
+      - if !@game_started
+        can Start
+      - else
+        - action = @waiting_on =~ /first/i ? "Lead" : @waiting_on
+        to #{action}
+
   - if @can_start_game && !@dealt
     = link_to 'Start', "#", class: "start_game btn btn-lg btn-success", data: {url: start_game_path} 
   - if @waiting_on_you && @game.config[:waiting_on_reason] == "Clear" 
     = link_to 'Clear', "#", class: "clear_hand btn btn-lg btn-success", data: {url: deal_game_path}
   
   - show_bid_form = @waiting_on_you && @dealt && !@done_bidding
+  / TODO: waiting_on_you && waiting_on==bid
   - if show_bid_form
-    .bid_form
-      /%h3#bid-title{style: "color: red;"} Bid Now
-      .input-group{style: "width:150px; margin: auto;"}
-        - max = @cards.size
-        = number_field_tag("bid", 0, min: 0, max: max, class: "form-control input-lg")
-        %span.input-group-btn
-          = link_to("Bid", "#", class: "btn btn-success", data: {disable: true, disable_with: "Bidding..."})
-      /:javascript
-      /  var bid_title = $("#bid-title");
-      /  setInterval(function(){
-      /    bid_title.fadeOut(500);
-      /    bid_title.fadeIn(500);
-      /  }, 1000);
+    .bid_form.input-group
+      - max = @cards.size
+      = number_field_tag("bid", 0, min: 0, max: max, class: "form-control")
+      = link_to("Bid", "#", class: "btn btn-success", data: {disable: true, disable_with: "Bidding..."})
   
-  / TODO: this is ok, but gets cleared by board updates too fast - maybe just remove it?
+  / TODO: do we need notice?
   - notice_message = @notice || notice 
-  - if notice_message
-    %h6
+  - if false && notice_message
+    %h6.action_notice
       Notice: 
       %br
-      = "\"#{notice_message}\""
+      = notice_message

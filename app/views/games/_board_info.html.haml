@@ -40,16 +40,6 @@
                   Suit
             .trump_card
               = render 'playing_card', id: :trump, card: @game.config[:trump_card]
-        - elsif !@game_started
-          .pregame_notice
-            %h6{style: "max-width: 115px;"}
-              - if @enough_players
-                - who_starts = @can_start_game ? 'You' : 'Dealer'
-                can Deal/Start
-              - else
-                Need more players
-                %br
-                (#{Game::MIN_PLAYERS} to #{@game.max_players})
   
     - if @is_playing
       .row
