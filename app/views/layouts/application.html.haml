@@ -1,19 +1,30 @@
 !!!
 %html
   %head
-    %title #{t(:name)} - The Card Game
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     %meta{charset: "utf-8"}
     %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}
     %meta{content: "width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1", name: :viewport}
-    %meta{content: "#{t(:name)}, the card game", name: :description}
     %meta{content: "Ben, Greg, & Mike", name: "author"}
 
     %meta{name: "og:site_name", content: "#{t(:name)}"}
-    %meta{name: "og:title", content: "#{t(:name)}"}
-    %meta{name: "og:url", content: "#{request.domain}"}
-    %meta{name: "og:type", content: "website"}
-    %meta{name: "og:description", content: "#{t(:name)}, the card game"}
+
+    - title = "#{t(:name)} - The Card Game"
+    - description = "#{t(:name)}, the card game for friends and enemies"
+    - if @game.present? # update title/description
+      - if @game.persisted? # game page
+        - title = "#{t(:name)} - Game ##{@game.id}"
+        - description = "Join game and play with #{@game.config[:names][0]} now."
+      - else # new game
+        - title = "#{t(:name)} - Create new game"
+        - description = "Create a new #{t(:name)} game and choose your rules."
+
+    %title= title
+    %meta{name: :description, content: description}
+    %meta{property: "og:title", content: title}
+    %meta{property: "og:description", content: description}
+    %meta{property: "og:url", content: "#{request.domain}"}
+    %meta{property: "og:type", content: "website"}
 
     //= stylesheet_link_tag 'bootstrap_and_overrides', media: 'all' # TODO: update with rails 6 bootstrap setup - remove less
     //= stylesheet_link_tag 'application', media: 'all'
