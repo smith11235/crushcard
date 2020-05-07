@@ -2,8 +2,10 @@
 %nav.navbar.navbar-custom.fixed-top{role: :navigation}
   .container
     .navbar-header
+      - classes = %w(navbar-brand)
+      - classes << "page-scroll" unless @game.present?
       - target = @game.present? ? root_path : "#page-top"
-      %a.navbar-brand.page-scroll{href: target}
+      = link_to target, class: classes do
         %h3
           %i.fa.fa-play-circle
           #{t('name').upcase}
