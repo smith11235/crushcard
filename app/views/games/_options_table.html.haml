@@ -6,6 +6,7 @@
           %h6= c[:label]
         %td
           - v = @game.persisted? ? @game.config[k] : t("options.#{k}.default") 
+          - v = @prior.config[k] if @prior.present?
           - opts = c[:select]
           - if form
             - if opts.present?

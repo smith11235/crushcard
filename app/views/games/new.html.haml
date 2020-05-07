@@ -5,7 +5,7 @@
       = form_for(@game) do |f|
         .row
           .col
-            = text_field_tag :username, nil, class: "input-lg", placeholder: "Player Name", required: true
+            = text_field_tag :username, @name, class: "input-lg", placeholder: "Player Name", required: true
         .row
           .col
             = f.submit class: "btn btn-lg btn-success"

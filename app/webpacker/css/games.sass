@@ -194,10 +194,6 @@
   padding: 15px
 
 #game
-  &.game_over
-    .controls
-      display: none
-
   &.show_hints
     .controls
       .waiting_notice
@@ -224,6 +220,12 @@
         display: inline 
       .play
         display: none
+  &.game-over
+    .info_actions
+      display: none
+    .hand_wrapper
+      display: none
+
 
 
 .board-wrapper-small

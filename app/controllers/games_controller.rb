@@ -199,6 +199,8 @@ class GamesController < ApplicationController
   # GET /games/new
   def new
     @game = Game.new
+    @prior = Game.find_by(id: params[:id])
+    @name = @prior.config[:names][params[:user].to_i] if @prior.present?
   end
 
   def toggle_hints
