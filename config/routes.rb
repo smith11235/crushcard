@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/robots', formats: [:txt], to: "games#robots"
+  get '/sitemap', formats: [:xml], to: "games#sitemap"
 
   resources :games, only: [:index, :show, :new, :create], path: "/" do
     member do

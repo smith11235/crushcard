@@ -1,6 +1,9 @@
 class GamesController < ApplicationController
 
-  before_action :set_game, except: [:index, :new, :create, :robots]
+  before_action :set_game, except: [:index, :new, :create, :robots, :sitemap]
+
+  def sitemap
+  end
 
   def robots
   end
