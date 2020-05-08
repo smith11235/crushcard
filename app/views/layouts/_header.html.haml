@@ -7,7 +7,7 @@
       - target = @game.present? ? root_path : "#page-top"
       = link_to target, class: classes do
         %h3
-          %i.fa.fa-play-circle
+          %span.fa.fa-play-circle
           #{t('name').upcase}
           - if in_game 
             = "##{@game.id}"

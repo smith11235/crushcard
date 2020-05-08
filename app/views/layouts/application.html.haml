@@ -9,19 +9,19 @@
 
     %meta{name: "og:site_name", content: "#{t(:name)}"}
 
-    - title = "#{t(:name)} - The Card Game"
-    - description = "#{t(:name)}, the card game for friends and enemies"
+    - title = "#{t(:name)} - A Card Game"
+    - description = "A bidding card game for friends and frustration (AKA: Oh Hell, Crush)"
     - full_url = root_url
     - robots = "INDEX, FOLLOW"
     - if @game.present? # update title/description
       - if @game.persisted? # game page
         - title = "#{t(:name)} - Game ##{@game.id}"
-        - description = "Join game and play with #{@game.config[:names][0]} now."
+        - description = "Join game and play with #{@game.config[:names][0]} now"
         - full_url = game_url(id: @game.id)
         - robots = "NOINDEX, NOFOLLOW"
       - else # new game
         - title = "#{t(:name)} - Create new game"
-        - description = "Create a new #{t(:name)} game and choose your rules."
+        - description = "Create a new #{t(:name)} game and choose your own rules"
         - full_url = new_game_url
 
     - unless Rails.env.production?
