@@ -192,13 +192,13 @@ class GamesController < ApplicationController
     if request.xhr? 
       render :json => js_data 
     else # direct page hit
-      puts "RENDER BOARD FOR DIRECT HIT".red
+      #puts "RENDER BOARD FOR DIRECT HIT".red
       render 'show'
     end
   end
 
   def json_board
-    puts "RENDER BOARD FOR JSON".red
+    #puts "RENDER BOARD FOR JSON".red
     render_to_string(partial: "board_info", formats: ["html"])
   end
 
