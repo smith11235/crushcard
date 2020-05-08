@@ -11,35 +11,38 @@
 
     - title = "#{t(:name)} - The Card Game"
     - description = "#{t(:name)}, the card game for friends and enemies"
+    - full_url = root_url
     - if @game.present? # update title/description
       - if @game.persisted? # game page
         - title = "#{t(:name)} - Game ##{@game.id}"
         - description = "Join game and play with #{@game.config[:names][0]} now."
+        - full_url = game_url(id: @game.id)
       - else # new game
         - title = "#{t(:name)} - Create new game"
         - description = "Create a new #{t(:name)} game and choose your rules."
+        - full_url = new_game_url
 
     %title= title
     %meta{name: :description, content: description}
     %meta{property: "og:title", content: title}
     %meta{property: "og:description", content: description}
-    %meta{property: "og:url", content: "#{request.domain}"}
     %meta{property: "og:type", content: "website"}
+    %meta{property: "og:url", content: full_url}
+    %link{href: full_url, rel: :canonical}
 
-    //= stylesheet_link_tag 'bootstrap_and_overrides', media: 'all' # TODO: update with rails 6 bootstrap setup - remove less
-    //= stylesheet_link_tag 'application', media: 'all'
     = render 'application/favicon'
 
-    / Custom Fonts
+    - # TODO: Custom Fonts - Using these?
     %link{href: "https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic", rel: "stylesheet", type: "text/css"}
     %link{href: "https://fonts.googleapis.com/css?family=Montserrat:400,700", rel: "stylesheet", type: "text/css"}
 
     = csrf_meta_tags
     = action_cable_meta_tag
 
-    = render 'layouts/analytics' if Rails.env.production?
     = stylesheet_pack_tag 'application', media: :all
     = javascript_pack_tag 'application' 
+
+    = render 'layouts/analytics' if Rails.env.production?
 
 
   %body#page-top{data: {spy: :scroll, target: ".fixed-top"}}
