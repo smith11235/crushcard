@@ -20,14 +20,22 @@
   
   - if show 
     %h6.score
-      #{@total_scores[index]} points
+      #{@total_scores[index]} 
+      %span.not-extra-small
+        points
+      %span.extra-small
+        pts
       (#{@places[index]}#{ActiveSupport::Inflector.ordinal(@places[index])})
   
     - bid = @round_scores[index]
-    %h6.bid_hint{style: "color: #{bid.last}"}
-      = bid.first
+    %h6.bid_hint{style: "color: #{bid[0]}"}
+      .not-extra-small
+        Taken #{bid[1]} / #{bid[2]} Bid
+      .extra-small
+        Bid #{bid[1]} / #{bid[2]}
+
     - if show && index == 0 
-      %h6.table_bids
+      %h6.table_bids{style: "white-space: nowrap;"}
         Table Bids: 
         - tb = @game.total_bids
         - nc = @game.num_cards_per_player

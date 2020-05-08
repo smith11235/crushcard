@@ -23,4 +23,27 @@
     overflow-y: hidden
     margin-bottom: 5px
     float: right
+  .not-extra-small
+    display: inline
+  .extra-small
+    display: none
 
+  &.extra-small
+    .not-extra-small
+      display: none
+    .extra-small
+      display: inline
+    .card_column
+      height: 55px
+
+    .player_card
+      min-height: 55px
+      position: relative
+      .score
+        position: absolute 
+        left: 15px
+      .bid_hint
+        position: absolute 
+        right: 15px
+      .table_bids
+        margin-top: 22px

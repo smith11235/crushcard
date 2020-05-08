@@ -16,9 +16,9 @@
         to #{action}
 
   - if @can_start_game && !@dealt
-    = link_to 'Start', "#", class: "start_game btn btn-lg btn-success", data: {url: start_game_path} 
+    = link_to 'Start', "#", class: "start_game btn btn-success", data: {url: start_game_path} 
   - if @waiting_on_you && @game.config[:waiting_on_reason] == "Clear" 
-    = link_to 'Clear', "#", class: "clear_hand btn btn-lg btn-success", data: {url: deal_game_path}
+    = link_to 'Clear', "#", class: "clear_hand btn btn-success", data: {url: deal_game_path}
   
   - show_bid_form = @waiting_on_you && @dealt && !@done_bidding
   / TODO: waiting_on_you && waiting_on==bid
@@ -28,7 +28,7 @@
       = number_field_tag("bid", 0, min: 0, max: max, class: "form-control")
       = link_to("Bid", "#", class: "btn btn-success", data: {disable: true, disable_with: "Bidding..."})
   
-  / TODO: do we need notice?
+  / TODO: do we need notice? - rip it out
   - notice_message = @notice || notice 
   - if false && notice_message
     %h6.action_notice

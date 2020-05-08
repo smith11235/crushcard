@@ -258,7 +258,6 @@ class GamesController < ApplicationController
         if @game.config[:score] && @game.config[:score][i]
           score = @game.config[:score][i].sum
         end
-        bid_info = "Taken #{tricks_taken} / #{bid} Bid" 
         bid_color = if (!bid_avail) || tricks_taken == bid
                       :white
                     else
@@ -268,7 +267,7 @@ class GamesController < ApplicationController
         @played_cards.push(@game.config[:cards_in_play][i]) if @game.config[:cards_in_play].present?
         @names.push @game.config[:names][i] 
         @total_scores.push score
-        @round_scores.push [bid_info, bid_color]
+        @round_scores.push [bid_color, tricks_taken, bid]
       end
   
       @places = []

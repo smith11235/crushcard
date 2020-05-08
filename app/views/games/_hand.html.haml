@@ -1,5 +1,10 @@
 .hand_wrapper
-  %h6.hand_note
+  - #@cards = (1..5).collect {|i| @cards.first} # for Development/hand size tewsting
+  #hand{class: "hand-size-#{@cards.size}"}
+    - @cards.each_with_index do |card,i|
+      %span.card_wrapper{id: "card#{i}"}
+        = render 'playing_card', id: "canv#{i}", card: card
+  %h6.hand_note{style: "margin-top: 5px;"}
     %span
       Your Hand 
     %span
@@ -8,11 +13,6 @@
           (bidding in progress)
         %span.play
           (double click to play)
-  - #@cards = (1..5).collect {|i| @cards.first} # for Development/hand size tewsting
-  #hand{class: "hand-size-#{@cards.size}"}
-    - @cards.each_with_index do |card,i|
-      %span.card_wrapper{id: "card#{i}"}
-        = render 'playing_card', id: "canv#{i}", card: card
-  %h6{style: "margin-top: 5px;"}
+  %h6
     Round of #{@game.num_cards_per_player}
     (#{@game.config[:deck].size} cards left in deck)
