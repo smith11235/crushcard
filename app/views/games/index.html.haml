@@ -1,12 +1,22 @@
 %header.intro
   .intro-body
-    .container
-      %h1.brand-heading= t(:name)
-      %p.intro-text 
-        %b
+    .container{itemscope: true, itemtype: "http://schema.org/Game"}
+      %h1.brand-heading{itemprop: "name"}
+        = t(:name)
+      %p.intro-text
+        %h2{itemprop: "abstract"}
           A card game.
-          %br
-          %i Crush your friends anytime, anywhere.
+        %h4
+          %i 
+            Play with your 
+            %span{itemprop: "audience"} friends 
+            anytime, anywhere.
+        %h4
+          %i
+            For 
+            %span{itemprop: "numberOfPlayers"}
+              3-10 
+            players
       .actions
         .row
           .col-sm-6.centered
