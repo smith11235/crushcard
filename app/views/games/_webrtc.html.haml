@@ -1,6 +1,9 @@
 - if @is_playing && !(Rails.env.production? && params[:webrtc].blank?)
+  - # TODO: morph token
   - current_player = @indexes[0]
-  .webrtc{data: {index: current_player}}
+  - morph = morph_game_url(id: @game.id, index: current_player)
+  .webrtc{data: {index: current_player, morph: morph}}
+    
     .vidchat_prompts
       = link_to "#", id: :start_video, class: "btn btn-sm btn-success" do
         %i.fa.fa-video-camera
@@ -23,3 +26,12 @@
     = javascript_include_tag "https://webrtc.github.io/adapter/adapter-latest.js"
 
 
+  #vidchat_modal.modal
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %h4.modal-title Vidchat Error
+          = link_to "#", data: { dismiss: "modal"} do
+            %h4 X
+        .modal-body
+          %p.message

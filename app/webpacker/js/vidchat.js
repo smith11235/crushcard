@@ -3,7 +3,6 @@
   window.load_vidchat = function(){
     window.start_channel();
     new VidchatControls();
-
   }
 
   var VidchatControls = function(){
@@ -16,10 +15,49 @@
 
     var start_call = function(e){
       e.preventDefault();
+
+      var is_windows = /Win/i.test(navigator.platform);
+      var is_apple = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+      var is_safari = is_apple && navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') === -1;
+      var is_mobile_ios = /(iPhone|iPod|iPad)/i.test(navigator.platform) && !window.MSStream;
+
+      console.log("User Agent: ", navigator.userAgent);
+      console.log("User Platform: ", navigator.platform);
+      console.log("Is Mobile IOS: ", is_mobile_ios)
+      console.log("Is Safari: ", is_safari)
+      console.log("Is Windows: ", is_windows)
+
+      var modal_msg = null;
+      if(is_mobile_ios && !is_safari){
+        var morph_url = root.data("morph");
+        modal_msg = "Videochat from ios mobile only works in Safari.<br />Please open the below url in Safari:<br /><b id=\"morph-url\">" + morph_url + "</b><br /><i class=\"copied hidden\">(It has been copied to your clipboard, just paste it into Safari)</i>";
+      } else if(is_windows){
+        modal_msg = "Not sure vidchat is working from PC/Windows yet. Please try your phone/mac/linux instead.";
+      }
+      if(modal_msg){
+        var modal = $(document).find("#vidchat_modal");
+        modal.find(".message").html(modal_msg);
+        modal.modal("toggle");
+        var id = "morph-url";
+        if (document.selection) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(document.getElementById(id));
+          range.select().createTextRange();
+          document.execCommand("copy");
+        } else if (window.getSelection) {
+          var range = document.createRange();
+          range.selectNode(document.getElementById(id));
+          window.getSelection().addRange(range);
+          document.execCommand("copy");
+        }
+        modal.find(".copied").removeClass("hidden");
+        return
+      }
+
       navigator
         .mediaDevices
         .getUserMedia({ 
-          video: true,
+          video: true, // { facingMode: "user" }
           //{ // IOS may not support this - and mobile chrome
           //  width: { max: 160 },
           //  height: { max: 120 },
@@ -30,7 +68,7 @@
         .then(got_local_stream)
         .catch(e => { 
           console.log('getUserMedia() error: ', e);
-          alert("Could not start videochat. (If on Apple Mobile, you must use Safari)");
+          alert("Could not start videochat.");
         });
       return false;
     }

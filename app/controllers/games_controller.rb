@@ -21,11 +21,16 @@ class GamesController < ApplicationController
   end
 
   def morph
+    # TODO: should create morph-token for security - game.config[:morph]
     morph_to = params[:index].to_i
     new_id = @game.config[:players][morph_to]
     session[:id] = new_id
     @_current_user = new_id
-    show
+    if request.xhr?
+      show
+    else
+      redirect_to game_path(@game)
+    end
   end
 
   def player_up?

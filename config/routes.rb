@@ -11,7 +11,8 @@ Rails.application.routes.draw do
       post 'player_action', formats: [:json]
       get 'toggle_hints'
 
-      post 'morph', formats: [:json]
+      post 'morph', formats: [:json] # debug helper
+      get 'morph' # user switching from chrome to safari for vidchat
     end
   end
 
