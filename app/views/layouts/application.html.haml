@@ -42,17 +42,11 @@
 
     = render 'application/favicon'
 
-    - # TODO: Custom Fonts - Using these?
-    %link{href: "https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic", rel: "stylesheet", type: "text/css"}
-    %link{href: "https://fonts.googleapis.com/css?family=Montserrat:400,700", rel: "stylesheet", type: "text/css"}
-
     = csrf_meta_tags
     = action_cable_meta_tag
 
-    = stylesheet_pack_tag 'application', media: :all
-    = javascript_pack_tag 'application' 
-
     = render 'layouts/analytics' if Rails.env.production?
+    = stylesheet_pack_tag 'application', media: :all
 
 
   %body#page-top{data: {spy: :scroll, target: ".fixed-top"}}
@@ -62,3 +56,10 @@
       = yield
 
     = render 'layouts/footer'
+    .post_includes
+      - # TODO: Custom Fonts - Using these? both of them?
+      = javascript_pack_tag 'application', async: Rails.env.production?
+
+      %link{href: "https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic", rel: "stylesheet", type: "text/css"}
+      %link{href: "https://fonts.googleapis.com/css?family=Montserrat:400,700", rel: "stylesheet", type: "text/css"}
+
