@@ -57,6 +57,15 @@ en:
           - 'down'
         - - "Up then Down"
           - 'both'
+    zero_bid_bonus: 
+      label: "Zero Bid Bonus"
+      default: '10'
+      select: 
+        - - "All bids get 10pt bonus"
+          - '10'
+        - - "0 bids only get 5pts"
+          - '5'
+
     bids_total:
       label: "Bids Total"
       default: 'lose'

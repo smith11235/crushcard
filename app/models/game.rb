@@ -334,7 +334,11 @@ class Game < ApplicationRecord
         elsif tricks.size > bid
           tricks.size
         else
-          bid + 10
+          if bid == 0 && config[:zero_bid_bonus].to_s == '5'
+            5
+          else
+            bid + 10
+          end
         end
         config[:score][i] ||= []
         config[:score][i].push player_score

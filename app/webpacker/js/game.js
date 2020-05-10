@@ -145,7 +145,7 @@
       });
     };
     var wait_and_poll = function() {
-      setTimeout(get_updated_board, 1000);
+      setTimeout(get_updated_board, 1500);// Make faster with postgres
     };
     var success = function(data){
       if (data && data['html']) {
