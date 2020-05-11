@@ -16,7 +16,7 @@
           - else
             %h6
               %i
-                - v = opts.find{|o| o.last == v}.first if opts.present?
+                - v = opts.find{|o| o.last == v}.try(:first) if opts.present?
                 = v
                 - if k == :hints
                   = link_to "Toggle", toggle_hints_game_path

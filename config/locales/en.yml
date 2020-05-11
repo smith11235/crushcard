@@ -59,7 +59,7 @@ en:
           - 'both'
     zero_bid_bonus: 
       label: "Zero Bid Bonus"
-      default: '10'
+      default: '5'
       select: 
         - - "All bids get 10pt bonus"
           - '10'

@@ -15,3 +15,5 @@ en_tish:
       default: "left"
     show_trump_shame:
       default: 'yes'
+    zero_bid_bonus: 
+      default: '10'
