@@ -1,0 +1,33 @@
+#scores-modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header{style: "height: 50px;"}
+        %h4.modal-title.pull-left Score History
+        = link_to "#", class: "pull-right", data: { dismiss: "modal"} do
+          %h4 X
+
+      .modal-body
+        %table
+          %thead
+            %tr
+              %th
+                Round
+              - @game.config[:names].each do |name|
+                %th
+                  = name
+          %tbody
+            - if @game.config[:history]
+              - @game.config[:history].each_with_index do |scores, round|
+                %tr
+                  %td
+                    #{round})
+                    - cards = scores.collect {|s| s[:taken]}.sum
+                    #{cards} #{'card'.pluralize(cards)}
+                  - scores.each do |score|
+                    %td
+                      = succeed "," do
+                        = [score[:taken], score[:bid]].join("/")
+                      +#{score[:score]}
+                      to
+                      = score[:total]
+                      pts

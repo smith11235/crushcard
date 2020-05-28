@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post 'start', formats: [:json]
       post 'deal', formats: [:json]
       post 'player_action', formats: [:json]
+      post 'scores', formats: [:json]
       get 'toggle_hints'
 
       post 'morph', formats: [:json] # debug helper

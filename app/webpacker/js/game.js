@@ -50,6 +50,7 @@
       if (game.data("chime")) {
         chime();
       }
+
     }
     var stop = function(){
       stopped = true;

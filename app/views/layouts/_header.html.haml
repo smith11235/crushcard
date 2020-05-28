@@ -14,8 +14,14 @@
 
       - if in_game
         %ul.nav.navbar-nav.navbar-right
-          %li
+          %li{style: "display: inline"}
             = link_to "#", data: { toggle: "modal", target: "#rules-modal" } do
               %h4
                 %i.fa.fa-book
                 Rules
+          - if @game_started
+            %li{style: "display: inline"}
+              = link_to "#", id: :score_history, data: {url: scores_game_path(@game)} do
+                %h4
+                  %i.fa.fa-pencil
+                  Score

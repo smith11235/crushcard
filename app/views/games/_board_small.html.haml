@@ -1,12 +1,12 @@
 - extra_class = num_players > 4 ? "extra-small" : nil
 .board-wrapper-small{class: extra_class}
   %table.board
-    %thead
-      %tr
-        %th 
-          %h3 Player
-        %th 
-          %h3 Card
+    /%thead
+    /  %tr
+    /    %th 
+    /      %h3 Player
+    /    %th 
+    /      %h3 Card
     %tbody
       / Note: 0 spot is You, need to render You last for mobile display
       - last_index = num_players - 1

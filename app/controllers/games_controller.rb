@@ -8,6 +8,10 @@ class GamesController < ApplicationController
   def robots
   end
 
+  def scores
+    render json: {html: render_to_string(partial: 'scores')}
+  end
+
   def game_redirect(notice)
     redirect_to game_url(id: @game.id), notice: notice
   end

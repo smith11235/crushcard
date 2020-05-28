@@ -323,6 +323,9 @@ class Game < ApplicationRecord
       config[:rounds_played] += 1
 
       # determine scores
+      config[:history] ||= []
+      config[:history] << [] # add in this round
+
       config[:bids].each_with_index do |bid, i|
         tricks = config[:tricks_taken][i] || []
         player_score = if tricks.size < bid
@@ -342,6 +345,8 @@ class Game < ApplicationRecord
         end
         config[:score][i] ||= []
         config[:score][i].push player_score
+        total = config[:score][i].sum
+        config[:history].last[i] = { total: total, score: player_score, taken: tricks.size, bid: bid }
       end
       
       # check to see if that was the last round (game over)

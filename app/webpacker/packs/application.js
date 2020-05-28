@@ -25,6 +25,7 @@ require('../js/grayscale.js') // homepage ui helper
 require('../js/draw_card.js')
 require('../js/card_handler.js')
 require('../js/game.js') //.coffee for source
+require('../js/score_history.js') 
 require('../js/vidchat.js') // TODO
 
 require("@rails/ujs").start()
