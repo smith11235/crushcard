@@ -39,7 +39,7 @@
       game.find(".start_game").on('click', start_game_clicked);
       game.find(".start_game").focus();
       game.find(".bid_form a").on('click', bid_clicked);
-      game.find(".bid_form input").focus();
+      //game.find(".bid_form input").focus();
       game.find("a.clear_hand").on('click', deal_clicked);
       game.find("a.clear_hand").focus();
       $(document).find(".join_game button").on('click', add_player_clicked);
