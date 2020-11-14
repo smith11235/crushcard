@@ -2,11 +2,11 @@ en_tish:
   name: "Tish"
   options:
     rounds_direction: 
-      default: 'up'
+      default: 'both'
     bids_total: 
       default: 'win'
     underbid: 
-      default: 'none'
+      default: 'points'
     ace_of_trump: 
       default: 'trump'
     hints: 
@@ -16,4 +16,4 @@ en_tish:
     show_trump_shame:
       default: 'no'
     zero_bid_bonus: 
-      default: '10'
+      default: '5'

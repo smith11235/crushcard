@@ -315,40 +315,10 @@ class Game < ApplicationRecord
     config[:winner_index] = nil
     config[:cards_in_play] = []
     config[:first_suit_played] = nil
-    
 
     # check to see if we're done with this round
     if config[:player_hands].first.empty?
-      # increment rounds played
-      config[:rounds_played] += 1
-
-      # determine scores
-      config[:history] ||= []
-      config[:history] << [] # add in this round
-
-      config[:bids].each_with_index do |bid, i|
-        tricks = config[:tricks_taken][i] || []
-        player_score = if tricks.size < bid
-          if config[:underbid] == 'lose'
-            tricks.size - bid 
-          else
-            0
-          end
-        elsif tricks.size > bid
-          tricks.size
-        else
-          if bid == 0 && config[:zero_bid_bonus].to_s == '5'
-            5
-          else
-            bid + 10
-          end
-        end
-        config[:score][i] ||= []
-        config[:score][i].push player_score
-        total = config[:score][i].sum
-        config[:history].last[i] = { total: total, score: player_score, taken: tricks.size, bid: bid }
-      end
-      
+      calc_scores
       # check to see if that was the last round (game over)
       if game_over?
         # game is over, determine who won
@@ -374,6 +344,39 @@ class Game < ApplicationRecord
     end
 
     save_state 
+  end
+
+  def calc_scores
+    # increment rounds played
+    config[:rounds_played] += 1
+
+    # determine scores
+    config[:history] ||= []
+    config[:history] << [] # add in this round
+
+    zero_bid = config[:zero_bid_bonus].to_s == '5'
+    underbid = config[:underbid]
+    config[:bids].each_with_index do |bid, i|
+      tricks = (config[:tricks_taken][i] || []).size
+      player_score = if tricks == bid # made bid, get bonus
+                       bonus = zero_bid && bid == 0 ? 5 : 10
+                       tricks + bonus
+                     elsif tricks < bid # 3 separate rules/handling for underbid
+                       if underbid == 'lose'
+                         tricks - bid # 3 taken, 5 bid: add -2 points
+                       elsif underbid == 'points'
+                         tricks
+                       else # no points
+                         0
+                       end
+                     else # overbid
+                       tricks
+                     end
+      config[:score][i] ||= []
+      config[:score][i].push player_score
+      total = config[:score][i].sum
+      config[:history].last[i] = { total: total, score: player_score, taken: tricks.size, bid: bid }
+    end
   end
 
   def config

@@ -33,10 +33,12 @@
         - if @dealt
           .trump_suit
             %h3.trump_label{style: "white-space: nowrap;"}
+              - # is it the time of biden?
+              - name = @game.config[:show_trump_shame] == 'biden' ? "Biden" : "Trump"
               - if @game.ignore_trump?
-                No Trump
+                No #{name} Round
               - else
-                Trump
+                #{name}
                 %span.large_label
                   Suit
             .trump_card
