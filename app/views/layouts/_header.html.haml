@@ -19,7 +19,7 @@
               %h4
                 %i.fa.fa-book
                 Rules
-          - if @game_started
+          - if @is_playing 
             %li{style: "display: inline"}
               = link_to "#", id: :score_history, data: {url: scores_game_path(@game)} do
                 %h4
